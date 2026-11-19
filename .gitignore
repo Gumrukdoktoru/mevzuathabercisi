@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+araclar/scene_*.mp4
+araclar/*.part.mp4
+araclar/list.txt
+araclar/vdata.json
+araclar/still_*.png

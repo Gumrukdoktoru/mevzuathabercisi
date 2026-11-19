@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face{font-family:SG;font-weight:400;src:url(fonts/sg-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:SG;font-weight:400;src:url(fonts/sg-latin-ext-400.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113}
+@font-face{font-family:SG;font-weight:500;src:url(fonts/sg-latin-500.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:SG;font-weight:500;src:url(fonts/sg-latin-ext-500.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113}
+@font-face{font-family:SG;font-weight:700;src:url(fonts/sg-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:SG;font-weight:700;src:url(fonts/sg-latin-ext-700.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113}
+@font-face{font-family:SG;font-weight:800;src:url(fonts/sg-latin-800.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:SG;font-weight:800;src:url(fonts/sg-latin-ext-800.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:#0E1630}
+body{font-family:SG,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;overflow:hidden;
+  background:
+   radial-gradient(900px 520px at 85% 15%,rgba(91,124,250,.16),transparent 70%),
+   repeating-linear-gradient(180deg,transparent 0 47px,rgba(255,255,255,.035) 47px 48px),
+   #0E1630}
+.abs{position:absolute;left:0;top:0;will-change:transform,opacity}
+/* A */
+#mark{width:180px;height:180px}
+#wm{font-size:68px;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+#wm b{font-weight:800}
+#wm span{font-weight:400;color:#C9D1E8}
+#tag{font-size:27px;font-weight:500;color:#A9B3CF;white-space:nowrap}
+/* B */
+#pill{font-size:24px;font-weight:700;color:#0E1630;background:#FFD43B;border-radius:999px;padding:9px 20px;white-space:nowrap}
+#count{font-size:230px;font-weight:800;line-height:.82;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+#countl{font-size:44px;font-weight:700;line-height:1.05;white-space:nowrap}
+#subB{font-size:24px;font-weight:500;color:#A9B3CF;white-space:nowrap}
+.bar{width:46px;border-radius:10px 10px 4px 4px;background:#4A5B9E}
+.bar.top{background:#FFD43B}
+.bv{font-size:24px;font-weight:800;width:46px;text-align:center}
+.bl{font-size:17px;font-weight:500;color:#A9B3CF;width:60px;text-align:center;line-height:1.2}
+.bl b{display:block;color:#fff;font-weight:700;font-size:20px}
+#baseline{height:2px;background:rgba(255,255,255,.18);width:470px}
+/* C */
+#titleC{font-size:30px;font-weight:700;white-space:nowrap}
+#titleC span{color:#A9B3CF;font-weight:500}
+.card{width:505px;height:222px;border-radius:22px;background:#1B2547;padding:26px 30px;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--c)}
+.chip{display:inline-flex;align-items:center;gap:10px;font-size:19px;font-weight:700;color:var(--c)}
+.chip svg{width:26px;height:26px;fill:none;stroke:var(--c);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.num{font-size:62px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-top:14px;white-space:nowrap}
+.num s{font-size:32px;font-weight:500;color:#7F8BAE;text-decoration-thickness:3px;margin-right:12px;vertical-align:middle}
+.cap{font-size:21px;font-weight:500;color:#BAC3DD;margin-top:12px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* D */
+.cat{width:110px;text-align:center}
+.cat .dot{width:92px;height:92px;border-radius:50%;background:var(--c);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.cat svg{width:46px;height:46px;fill:none;stroke:#0E1630;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cat .lb{font-size:18px;font-weight:700;margin-top:12px;white-space:nowrap}
+#lock{display:flex;align-items:center;gap:26px;white-space:nowrap}
+#lock svg{width:96px;height:96px}
+#lock .t{font-size:62px;letter-spacing:-.02em}
+#lock .t b{font-weight:800}
+#lock .t span{font-weight:400;color:#C9D1E8}
+#lock .t i{font-style:normal;font-weight:500;color:#FFD43B}
+#scope{font-size:23px;font-weight:500;color:#A9B3CF;white-space:nowrap}
+#partner{font-size:20px;font-weight:500;color:#A9B3CF;white-space:nowrap}
+#partner b{color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- Scene A -->
+  <svg id="mark" class="abs" viewBox="0 0 32 32">
+    <rect id="mSq" x="1" y="1" width="30" height="30" rx="8" fill="#F2F4F8"/>
+    <rect id="mL1" x="7" y="8" width="18" height="2.6" rx="1.3" fill="#0E1630" opacity=".35"/>
+    <rect id="mHi" x="5" y="13" width="22" height="6.4" rx="1.6" fill="#FFD43B"/>
+    <rect id="mL2" x="7" y="14.9" width="18" height="2.6" rx="1.3" fill="#0E1630"/>
+    <rect id="mL3" x="7" y="21.8" width="11" height="2.6" rx="1.3" fill="#0E1630" opacity=".35"/>
+  </svg>
+  <div id="wm" class="abs"><b>mevzuat</b><span>habercisi</span></div>
+  <div id="tag" class="abs">Her sabah güncel mevzuat, tek ekranda.</div>
+
+  <!-- Scene B -->
+  <div id="pill" class="abs"></div>
+  <div id="count" class="abs">0</div>
+  <div id="countl" class="abs">mevzuat<br>değişikliği</div>
+  <div id="subB" class="abs"></div>
+  <div id="baseline" class="abs"></div>
+  <div id="bars"></div>
+
+  <!-- Scene C -->
+  <div id="titleC" class="abs">Son 7 günün rakamları</div>
+  <div id="cards"></div>
+
+  <!-- Scene D -->
+  <div id="cats"></div>
+  <div id="lock" class="abs">
+    <svg viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="8" fill="#F2F4F8"/><rect x="7" y="8" width="18" height="2.6" rx="1.3" fill="#0E1630" opacity=".35"/><rect x="5" y="13" width="22" height="6.4" rx="1.6" fill="#FFD43B"/><rect x="7" y="14.9" width="18" height="2.6" rx="1.3" fill="#0E1630"/><rect x="7" y="21.8" width="11" height="2.6" rx="1.3" fill="#0E1630" opacity=".35"/></svg>
+    <div class="t"><b>mevzuat</b><span>habercisi</span><i>.com</i></div>
+  </div>
+  <div id="scope" class="abs">Gümrük, dış ticaret, vergi, muhasebe, finansman, lojistik, depolama ve denetim</div>
+  <div id="partner" class="abs">Eğitim ortağı: <b>Gümrük Koçu - Ufuk Çetintaş</b></div>
+</div>
+<script>
+const IC={
+  gumruk:'<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  distic:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
+  vergi:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="m9 14 6-6"/><circle cx="9.5" cy="8.5" r="1"/><circle cx="14.5" cy="13.5" r="1"/>',
+  muhasebe:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8M8 11h2M12 11h2M8 14.5h2M12 14.5h2M8 18h2M12 18h4"/>',
+  finans:'<path d="M3 10 12 4l9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>',
+  lojistik:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  depolama:'<path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8M7 16h10"/>',
+  denetim:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><path d="m9 12 2 2 4-4"/>'
+};
+const LC={gumruk:"#3BC9DB",distic:"#748FFC",vergi:"#FF922B",muhasebe:"#DA77F2",finans:"#69DB7C",lojistik:"#FCC419",depolama:"#A5B4CB",denetim:"#F783AC"};
+const CATS=[["gumruk","Gümrük"],["distic","Dış ticaret"],["vergi","Vergi"],["muhasebe","Muhasebe"],["finans","Finansman"],["lojistik","Lojistik"],["depolama","Depolama"],["denetim","Denetim"]];
+/* Veriler window.VDATA'dan gelir (render.py, vdata.json'u enjekte eder). Yoksa örnek veri kullanılır. */
+const VD=window.VDATA||{
+  label:"Son 7 gün: 11–17 Kasım 2026", count:18,
+  sub:"7 Resmî Gazete sayısı, 11 kurum<br>ve 22 kaynak tarandı",
+  days:[["Çar","11",7],["Per","12",3],["Cum","13",2],["Cmt","14",2],["Paz","15",2],["Pzt","16",2],["Sal","17",0]],
+  cards:[
+    {c:"vergi",ad:"Vergi",v:"50.000 TL",old:"5.000",cap:"Kamu ihalesinde vergi ve SGK borç sınırı"},
+    {c:"finans",ad:"Finansman",v:"33.030 TL",cap:"Alışverişte satılan sigortada yıllık prim tavanı"},
+    {c:"distic",ad:"Dış ticaret",v:"%3 – %7,8",cap:"Türk çeliğine AB antidamping vergisi"},
+    {c:"gumruk",ad:"Gümrük",v:"12 ay",cap:"Rüzgâr kulesi ihracatında DİİB süresi"}
+  ]};
+const DAYS=VD.days.slice(-7);
+const MAXD=Math.max(1,...DAYS.map(d=>d[2]));
+const TOPI=DAYS.findIndex(d=>d[2]===MAXD);
+/* "50.000 TL" gibi değerler sayarak gelir; "%3 – %7,8" gibi değerler sabit kalır */
+const CARDS=VD.cards.slice(0,4).map(c=>{
+  const m=String(c.v).match(/^([\d.]+)(\s.*)?$/);
+  if(!m)return Object.assign({},c,{txt:c.v});
+  const to=+m[1].replace(/\./g,""), fr=c.old&&/^[\d.]+$/.test(c.old)?+c.old.replace(/\./g,""):0;
+  return Object.assign({},c,{from:fr,to:to,suf:m[2]||""});
+});
+const $=s=>document.querySelector(s);
+const svgI=(k)=>'<svg viewBox="0 0 24 24">'+IC[k]+'</svg>';
+/* build */
+$("#pill").textContent=VD.label;
+$("#subB").innerHTML=VD.sub;
+$("#bars").innerHTML=DAYS.map((d,i)=>'<div class="abs bar'+(i===TOPI?' top':'')+'" id="b'+i+'"></div><div class="abs bv" id="v'+i+'">'+(d[2]||"–")+'</div><div class="abs bl" id="l'+i+'"><b>'+d[1]+'</b>'+d[0]+'</div>').join("");
+$("#cards").innerHTML=CARDS.map((c,i)=>'<div class="abs card" id="c'+i+'" style="--c:'+LC[c.c]+'"><div class="chip">'+svgI(c.c)+c.ad+'</div><div class="num" id="n'+i+'">'+(c.txt!==undefined?(c.old?'<s>'+c.old+'</s>':'')+c.txt:"")+'</div><div class="cap">'+c.cap+'</div></div>').join("");
+$("#cats").innerHTML=CATS.map((c,i)=>'<div class="abs cat" id="k'+i+'" style="--c:'+LC[c[0]]+'"><div class="dot">'+svgI(c[0])+'</div><div class="lb">'+c[1]+'</div></div>').join("");
+
+/* helpers */
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3);
+const eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eb=x=>{const c1=1.4,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const fmt=n=>Math.round(n).toLocaleString("tr-TR");
+function set(el,{x=0,y=0,s=1,o=1,ox,oy}){el.style.transform='translate('+x+'px,'+y+'px) scale('+s+')';el.style.opacity=o;if(ox!==undefined)el.style.transformOrigin=ox+' '+oy;}
+const W=sel=>$(sel).getBoundingClientRect().width;
+
+let wmW=0,lockW=0,tagW=0,scopeW=0,partW=0,titleW=0,cntW=270;
+function finalNum(c){return c.txt!==undefined?(c.old?'<s>'+c.old+'</s>':'')+c.txt:(c.old?'<s>'+c.old+'</s>':'')+fmt(c.to)+c.suf;}
+function measure(){$("#count").textContent=VD.count;cntW=W("#count");wmW=W("#wm");lockW=W("#lock");scopeW=W("#scope");partW=W("#partner");
+  /* uzun rakamları kartın içine sığdır */
+  CARDS.forEach((c,i)=>{const n=$("#n"+i);n.innerHTML=finalNum(c);let fs=62;while(n.scrollWidth>n.clientWidth&&fs>34){fs-=2;n.style.fontSize=fs+"px";}});
+  /* uzun alt başlıkları küçült */
+  let sf=24;const sb=$("#subB");while(sb.getBoundingClientRect().width>560&&sf>17){sf--;sb.style.fontSize=sf+"px";}
+}
+
+window.draw=function(t){
+  /* ---------- A: 0 – 3.4 ---------- */
+  const markS=180, gap=34;
+  const groupW=markS+gap+wmW, gx=(1280-groupW)/2;
+  const mv=eio(p(t,1.45,2.1));
+  const mx=(640-markS/2)*(1-mv)+gx*mv;
+  const outA=eio(p(t,2.95,3.4));
+  const mIn=eo(p(t,0,.6));
+  set($("#mark"),{x:mx,y:250-outA*40,s:.7+.3*mIn,o:mIn*(1-outA),ox:"50%",oy:"50%"});
+  $("#mL1").setAttribute("width",18*eo(p(t,.35,.85)));
+  $("#mL2").setAttribute("width",18*eo(p(t,.5,1.0)));
+  $("#mL3").setAttribute("width",11*eo(p(t,.65,1.15)));
+  $("#mHi").setAttribute("width",22*eo(p(t,1.0,1.45)));
+  const wIn=eo(p(t,1.75,2.3));
+  set($("#wm"),{x:gx+markS+gap+30*(1-wIn),y:278-outA*40,o:wIn*(1-outA)});
+  const tIn=eo(p(t,2.2,2.7));
+  set($("#tag"),{x:gx+markS+gap,y:362+12*(1-tIn)-outA*40,o:tIn*(1-outA)});
+
+  /* ---------- B: 3.4 – 7.2 ---------- */
+  const inB=eo(p(t,3.45,3.9)), outB=eio(p(t,6.75,7.2));
+  const shB=-60*outB;
+  set($("#pill"),{x:110+shB,y:150+16*(1-inB),o:inB*(1-outB)});
+  const cIn=eo(p(t,3.6,4.0));
+  const cv=eo(p(t,3.7,5.2));
+  $("#count").textContent=Math.round(VD.count*cv);
+  set($("#count"),{x:104+shB,y:222+20*(1-cIn),o:cIn*(1-outB)});
+  set($("#countl"),{x:104+cntW+26+shB,y:262+20*(1-cIn),o:eo(p(t,3.9,4.3))*(1-outB)});
+  set($("#subB"),{x:112+shB,y:450,o:eo(p(t,4.3,4.8))*(1-outB)});
+  const baseY=540, bx0=700, bw=46, bg=22, unit=Math.min(39,272/MAXD);
+  set($("#baseline"),{x:bx0-10+shB,y:baseY,o:inB*(1-outB)});
+  DAYS.forEach((d,i)=>{
+    const g=eb(p(t,3.85+i*.11,4.5+i*.11));
+    const h=Math.max(8,d[2]*unit)*cl(g,0,1.2);
+    const x=bx0+i*(bw+bg)+shB;
+    set($("#b"+i),{x:x,y:baseY-h,o:(1-outB)*(p(t,3.85+i*.11,3.95+i*.11))});
+    $("#b"+i).style.height=h+"px";
+    if(!d[2])$("#b"+i).style.background="rgba(255,255,255,.14)";
+    set($("#v"+i),{x:x,y:baseY-h-34,o:eo(p(t,4.4+i*.11,4.7+i*.11))*(1-outB)});
+    set($("#l"+i),{x:x-7,y:baseY+14,o:inB*(1-outB)});
+  });
+
+  /* ---------- C: 7.2 – 11.6 ---------- */
+  const outC=eio(p(t,11.15,11.6));
+  const tC=eo(p(t,7.3,7.7));
+  set($("#titleC"),{x:110,y:78+14*(1-tC)-outC*30,o:tC*(1-outC)});
+  const pos=[[110,138],[665,138],[110,384],[665,384]];
+  CARDS.forEach((c,i)=>{
+    const st=7.5+i*.55, k=eo(p(t,st,st+.5));
+    set($("#c"+i),{x:pos[i][0],y:pos[i][1]+36*(1-k)-outC*30,o:k*(1-outC)});
+    if(!c.txt){
+      const v=c.from+(c.to-c.from)*eo(p(t,st+.15,st+1.05));
+      $("#n"+i).innerHTML=(c.old?'<s>'+c.old+'</s>':'')+fmt(v)+c.suf;
+    }
+  });
+
+  /* ---------- D: 11.6 – 15.0 ---------- */
+  const up=eio(p(t,13.0,13.6));
+  const size=92-30*up;
+  const sp=140-34*up;
+  const rowW=7*sp+110;
+  const rx=(1280-rowW)/2;
+  const ry=255-120*up;
+  CATS.forEach((c,i)=>{
+    const st=11.7+i*.08, k=eb(p(t,st,st+.45));
+    const s=(.6+.4*cl(k,0,1.2))*(size/92);
+    set($("#k"+i),{x:rx+i*sp,y:ry,s:s,o:p(t,st,st+.2),ox:"50% ",oy:"0"});
+    $("#k"+i).querySelector(".lb").style.opacity=1-up;
+  });
+  const lIn=eo(p(t,13.35,13.85));
+  set($("#lock"),{x:(1280-lockW)/2,y:300+20*(1-lIn),o:lIn});
+  set($("#scope"),{x:(1280-scopeW)/2,y:440,o:eo(p(t,13.6,14.05))});
+  set($("#partner"),{x:(1280-partW)/2,y:624,o:eo(p(t,13.8,14.25))});
+};
+document.fonts.ready.then(()=>{measure();draw(0);window.READY=true;});
+</script>
+</body>
+</html>
