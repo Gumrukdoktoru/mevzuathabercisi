@@ -102,18 +102,21 @@ python3 render.py stills vdata.json 5.6 9.8          # still_05.60.png ve still_
 
 Kareleri Read ile aç ve bak: sayı, gün çubukları ve dört kart taşmadan görünmeli. Gerekiyorsa TILES metinlerini kısaltıp yeniden üret. Chrome (/usr/bin/google-chrome), python playwright ve ffmpeg ortamda hazırdır.
 
-## 6. Yayınla
+## 6. GitHub'daki tasarımı al ve yayınla
 
-`publish_files` ile slug ve 1. adımda alınan base_version'ı vererek şu üç dosyayı yayınla (varsayılan patch kipi; diğer dosyalara dokunma):
+Sitenin kodu GitHub'da da durur: https://github.com/Gumrukdoktoru/mevzuathabercisi . ChatGPT (Codex) ve Claude tasarım değişikliklerini orada yapar; `main` dalına alınan değişiklikler her sabah bu adımda canlı siteye taşınır.
 
-- `js/data.js` ← is/site/js/data.js
-- `media/intro.mp4` ← is/site/media/intro.mp4
-- `media/poster.jpg` ← is/site/media/poster.jpg
+1. `mcp__claude-code-remote__add_repo` aracını (ToolSearch ile yükle) `owner: Gumrukdoktoru`, `repo: mevzuathabercisi`, `access: push` ile çağır ve aracın söylediği komutla depoyu klonla. Araç ya da klon başarısız olursa bu adımın 2. ve 4. maddelerini atla, yalnızca 3. maddedeki üç dosyayı yayınla ve raporda GitHub eşitlemesinin yapılamadığını yaz.
+2. Klondaki tasarım dosyalarını canlı siteyle karşılaştır: `index.html`, `js/app.js`, `js/art.js`, `fonts/` altındaki dosyalar ve `media/haber/` altındaki görseller. Her dosyanın `sha256sum` değerini `list_files` sonucundaki sha256 ile karşılaştır. Farklı olan ya da sitede hiç olmayan dosyaları yayın listesine ekle; kaynak yolu her zaman **klondaki** dosya olsun.
+3. `publish_files` ile slug ve 1. adımda alınan base_version'ı vererek (varsayılan patch kipi) tek seferde yayınla:
+   - `js/data.js` ← güncellediğin veri dosyası
+   - `media/intro.mp4` ve `media/poster.jpg` ← ürettiğin video
+   - 2. maddede farklı çıkan tasarım dosyaları ← klondan
+   Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve aynı listeyle yeniden yayınla.
+4. Güncel `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını klona kopyala; `git add`, ardından `git commit -m "Günlük güncelleme: GG Ay YYYY"` (commit mesajının sonuna oturumun verdiği ortak yazar satırlarını ekle) ve `git push origin main` ile gönder. Bu üç dosya dışında klonda hiçbir şeyi değiştirme.
 
-Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve yalnızca bu üç dosyayla yeniden yayınla.
-
-**Kesin kural:** `index.html`, `js/app.js`, `js/art.js`, `fonts/` ve `src/` dosyalarını hiçbir koşulda yayınlama, okuma amacıyla bile `files` listesine koyma. Bu dosyalar tasarımdır ve ayrı yönetilir. `read_file` bir HTML dosyasını döndürürken başına okuma için bir sarmalayıcı (`<!doctype html><html><head>…<body>`) ekleyebilir; böyle bir kopya yayınlanırsa site bozulur.
+**Kesin kural:** `read_file` ile artifact'tan okunan `index.html`, `js/app.js`, `js/art.js` ya da başka bir HTML/JS kopyasını asla yayınlama. `read_file` HTML'in başına okuma için bir sarmalayıcı (`<!doctype html><html><head>…<body>`) ekleyebilir; böyle bir kopya yayınlanırsa site bozulur. Tasarım dosyalarının tek kaynağı GitHub'daki `main` dalıdır. `src/` dosyalarını yayınlama.
 
 ## 7. Raporla
 
-SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), son 7 günün toplam mevzuat değişikliği sayısı ve sitenin bağlantısı. Bir adım başarısız olduysa neyin yapılamadığını açıkça yaz.
+SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), son 7 günün toplam mevzuat değişikliği sayısı, GitHub'dan canlıya taşınan tasarım değişiklikleri (varsa) ve sitenin bağlantısı. Bir adım başarısız olduysa neyin yapılamadığını açıkça yaz.

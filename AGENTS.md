@@ -52,3 +52,7 @@ Bu dosya, depoda çalışan her ajanın uyacağı kuralları anlatır. Önce `RE
 4. `main` dalına doğrudan yazmayın.
 
 Tek istisna, her sabahki otomatik güncellemedir: yalnızca `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını `main` dalına doğrudan yazar.
+
+Yayına alma: `main` dalına alınan tasarım değişiklikleri (`index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/`) ertesi sabahki otomatik güncellemede canlı siteye taşınır. Bu yüzden `main` dalına yalnızca denenmiş, çalışan değişiklikler alınmalıdır.
+
+Haber fotoğrafları: `media/haber/` altındaki görseller `js/app.js` içindeki `photos` eşlemesiyle haberlere bağlanır; eşlemesi olmayan haberlerde `js/art.js` çizimi kullanılır.
