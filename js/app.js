@@ -55,7 +55,30 @@ const kc = (x, k) => (k && x.cat.indexOf(k) >= 0) ? k : c0(x);
 const badge = (x, sm) => '<span class="badge' + (sm ? " sm" : "") + '"><b>' + figTxt(x.key) + "</b><small>" + esc(x.key.ks) + "</small></span>";
 const kick = (x, k) => { k = kc(x, k); return '<a class="kick" style="--c:' + cv(k) + '" href="#kategori-' + k + '">' + esc(CAT[k].ad) + "</a>" + (isNew(x) ? '<span class="new">Yeni</span>' : ""); };
 const impP = x => x.kind === "g" ? '<span class="gd">Ekonomi gündemi</span>' : '<span class="imp imp-' + x.imp + '">' + M.IMP[x.imp] + "</span>";
-const art = (x, cls, withBadge, k) => { k = kc(x, k); return '<a class="img' + (cls ? " " + cls : "") + '" href="' + href(x) + '" tabindex="-1" aria-hidden="true" style="--c:' + cv(k) + '">' + ART.scene(k, x.id) + (withBadge ? badge(x, withBadge === "sm") : "") + "</a>"; };
+/* Habere özel temsili görseller. Yeni haberlerde alan çizimi kullanılır. */
+const photos = {
+  "ihale-borc-siniri": "kamu-binasi",
+  "sgk-ihale-borc-genelgesi": "kamu-binasi",
+  "deniz-hava-muafiyet-genelgesi": "konteyner-limani",
+  "iplik-damping-surdurme": "iplik",
+  "dir-kumas-kirpinti-gozetim": "iplik",
+  "yabanci-yatirimci-ikamet": "istanbul",
+  "ab-soguk-celik-antidamping": "celik",
+  "lisansli-depo-tarife": "depo",
+  "tio-tehlikeli-madde-cezalari": "nakliye",
+  "ncts-ihracat-kapatma": "nakliye",
+  "vuk-597-borclu-listesi": "mali-kayit",
+  "kdv-beyannamesi-511": "mali-kayit",
+  "bm-malvarligi-listesi": "mali-kayit",
+  "kgk-surdurulebilirlik-tfrs18": "mali-kayit"
+};
+function visual(x, k, priority = false) {
+  const photo = photos[x.id];
+  if (!photo) return ART.scene(k, x.id, { label: CAT[k].ad + " için temsili çizim" });
+  return '<img class="news-photo" src="media/haber/' + photo + '.webp" alt="" ' +
+    (priority ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">';
+}
+const art = (x, cls, withBadge, k) => { k = kc(x, k); return '<a class="img' + (cls ? " " + cls : "") + '" href="' + href(x) + '" tabindex="-1" aria-hidden="true" style="--c:' + cv(k) + '">' + visual(x, k, withBadge) + (withBadge ? badge(x) : "") + "</a>"; };
 const meta = (x, full) => '<div class="meta"><span>' + (full ? fD(x.d) : fDs(x.d)) + "</span>" + (full ? "<span>" + esc(x.kurum) + "</span>" : "") + impP(x) + "</div>";
 const head = (x, tag) => "<" + tag + ' class="hl"><a href="' + href(x) + '">' + esc(x.title) + "</a></" + tag + ">";
 
@@ -121,7 +144,7 @@ function rgPanel() {
   let body;
   if (today.items.length) body = list(today.items) + (today.d.note ? '<p class="rgnote">' + esc(today.d.note) + "</p>" : "");
   else body = '<p class="rgnone">' + esc(today.d.note || "Bugünkü sayıda takip alanlarına giren düzenleme yok.") + "</p>" +
-    (lastFull ? '<p class="rgprev">Son düzenleme içeren sayı: ' + fDm(lastFull.d.d) + ", sayı " + esc(rgNo(lastFull.d)) + "</p>" + list(lastFull.items.slice(0, 4)) : "");
+    (lastFull ? '<details><summary class="rgprev">Son düzenleme içeren sayı: ' + fDm(lastFull.d.d) + ", sayı " + esc(rgNo(lastFull.d)) + "</summary>" + list(lastFull.items.slice(0, 4)) + "</details>" : "");
   return '<section class="rgp" aria-labelledby="rg-h"><div class="rgtop"><span class="rgseal" aria-hidden="true">RG</span><div><h2 id="rg-h">Bugünün Resmî Gazetesi</h2><p>' + fD(today.d.d) + ", " + dayName(today.d.d) + "</p></div><span class=\"rgno\">Sayı " + esc(rgNo(today.d)) + "</span></div>" + body +
     '<a class="more rgmore" href="#bu-hafta">Son 7 günün sayıları</a></section>';
 }
@@ -134,7 +157,7 @@ function pageHome() {
   const tops = M.TOP.map(id => byId[id]).filter(x => x && x !== lead);
   const under = tops.slice(0, 3);
   while (under.length < 3) { const n = ALL.find(x => x !== lead && under.indexOf(x) < 0); if (!n) break; under.push(n); }
-  const flow = ALL.slice(0, 6);
+  const flow = ALL.filter(x => x !== lead && !under.includes(x)).slice(0, 4);
   const gLead = byId[M.GUMRUK_LEAD] || ALL.find(x => x.cat.includes("gumruk"));
   const gList = ALL.filter(x => inWeek(x) && x.kind !== "g" && x !== gLead && (x.cat.includes("gumruk") || x.cat.includes("distic"))).slice(0, 5);
   const gCount = ALL.filter(x => inWeek(x) && x.kind !== "g" && (x.cat.includes("gumruk") || x.cat.includes("distic"))).length;
@@ -145,11 +168,15 @@ function pageHome() {
   const ecoList = gItems.filter(x => x !== chartItem).slice(0, 3);
   const archive = M.ARCHIVE_PICKS.map(id => byId[id]).filter(Boolean);
 
-  let h = '<div class="wrap"><div class="front"><div>' + stLead(lead) + '<div class="under">' + under.map(x => stMd(x)).join("") + "</div></div>" +
-    '<aside class="side" aria-label="Bugünün Resmî Gazetesi, son eklenenler ve piyasalar">' + rgPanel() +
-      '<section><div class="boxh"><h2><span class="dot" aria-hidden="true"></span>Son eklenenler</h2><a class="more" href="#haberler">Tümü</a></div><ol class="flow">' +
-        flow.map(x => '<li><a href="' + href(x) + '" style="--c:' + cv(c0(x)) + '"><time datetime="' + x.d + '"><b>' + pd(x.d).getDate() + "</b>" + MONS[pd(x.d).getMonth()] + '</time><span><span class="k">' + esc(CAT[c0(x)].ad) + '</span><span class="t">' + esc(x.title) + "</span></span></a></li>").join("") + "</ol></section>" +
-      '<section><div class="boxh"><h2>Piyasalar</h2></div><table class="mtab"><tbody>' + M.MARKET.items.map(m => "<tr><td>" + esc(m[0]) + (m[2] ? ' <small style="color:var(--ink-3)">(' + esc(m[2]) + ")</small>" : "") + "</td><td>" + esc(m[1]) + "</td></tr>").join("") + '</tbody></table><p class="mnote">' + esc(M.MARKET.asof) + "</p></section>" +
+  let h = '<div class="wrap"><div class="edition">' +
+    '<article class="cover"><a href="' + href(lead) + '"><span class="cover-image" aria-hidden="true">' + visual(lead, c0(lead), true) + '</span>' +
+      '<div class="cover-copy"><div class="cover-kind">Haftanın manşeti<span>' + esc(CAT[c0(lead)].ad) + '</span></div>' +
+      '<h1>' + esc(lead.title) + '</h1><p>' + esc(lead.spot) + '</p><div class="cover-foot"><time datetime="' + esc(lead.d) + '">' + fD(lead.d) + '</time><span>Haberi oku</span></div></div></a></article>' +
+    '<section class="latest"><div class="boxh"><h2>Son eklenenler</h2><a class="more" href="#haberler">Tümü</a></div><ol class="flow">' +
+      flow.map(x => '<li><a href="' + href(x) + '" style="--c:' + cv(c0(x)) + '"><span class="flow-meta"><span class="k">' + esc(CAT[c0(x)].ad) + '</span><time datetime="' + x.d + '">' + fDs(x.d) + '</time></span><span class="t">' + esc(x.title) + "</span></a></li>").join("") + "</ol></section>" +
+    '<section class="picks"><div class="boxh"><h2>Öne çıkanlar</h2></div><div class="under">' + under.map(x => stMd(x)).join("") + '</div></section>' +
+    '<aside class="issue-rail" aria-label="Resmî Gazete ve piyasalar">' + rgPanel() +
+      '<details><summary>Piyasa kapanışları</summary><table class="mtab"><tbody>' + M.MARKET.items.map(m => "<tr><td>" + esc(m[0]) + (m[2] ? ' <small style="color:var(--ink-3)">(' + esc(m[2]) + ")</small>" : "") + "</td><td>" + esc(m[1]) + "</td></tr>").join("") + '</tbody></table><p class="mnote">' + esc(M.MARKET.asof) + "</p></details>" +
     "</aside></div></div>";
 
   if (gLead) h += '<section class="blk wrap">' + sech('<a href="#kategori-gumruk">Gümrük ve dış ticaret</a>', "Son 7 günde " + gCount + " gelişme: tebliğler, genelgeler, GGM yazıları ve AB kararları", ["#kategori-gumruk", "Tüm gümrük haberleri"], cv("gumruk")) +
@@ -258,16 +285,16 @@ function pageArticle(id) {
     '<div class="agrid"><div>' +
       '<header class="ahead"><div class="tags">' + x.cat.map(c => '<a class="kick" style="--c:' + cv(c) + '" href="#kategori-' + c + '">' + esc(CAT[c].ad) + "</a>").join("") + impP(x) + (isNew(x) ? '<span class="new">Yeni</span>' : "") + "</div>" +
         "<h1>" + esc(x.title) + '</h1><p class="spot">' + esc(x.spot) + "</p></header>" +
-      '<div class="ameta"><span>Yayım <b>' + fD(x.d) + "</b></span><span>Kurum <b>" + esc(x.kurum) + "</b></span><span>Tür <b>" + esc(x.tur) + "</b></span>" + (x.rg ? "<span>Resmî Gazete <b>" + esc(x.rg) + "</b></span>" : "") +
-        '<button type="button" id="copy">' + ic("link") + "Bağlantıyı kopyala</button></div>" +
-      '<figure class="hero-img"><span class="img">' + ART.scene(k, x.id, { label: CAT[k].ad + " alanı için temsilî çizim" }) + badge(x) + "</span><figcaption>Temsilî çizim. Öne çıkan rakam: " + esc(x.key.ks) + "</figcaption></figure>" +
+      '<div class="ameta"><span>Yayım <b>' + fD(x.d) + "</b></span><span>Kurum <b>" + esc(x.kurum) + "</b></span>" +
+        '<div class="article-actions"><button type="button" id="sources-jump">Kaynakları gör</button><button type="button" id="copy">' + ic("link") + "Bağlantıyı kopyala</button></div></div>" +
+      '<figure class="hero-img"><span class="img">' + visual(x, k, true) + badge(x) + "</span><figcaption>" + (photos[x.id] ? "Yapay zekâ ile oluşturulmuş temsili görsel." : "Temsili çizim.") + "</figcaption></figure>" +
       '<div class="prose">' +
         "<h2>" + (x.kind === "g" ? "Ayrıntılar" : "Ne değişti?") + "</h2>" + x.body.map(p => "<p>" + esc(p) + "</p>").join("") +
         (x.chart ? '<div style="font-family:var(--sans);margin:10px 0 24px"><b style="font-size:15px">' + esc(x.chart.cap || "") + "</b>" + chartHTML(x.chart) + "</div>" : "") + tbl +
         (x.warn ? '<div class="warn">' + ic("alert") + "<div><b>Dikkat</b>" + esc(x.warn) + "</div></div>" : "") +
         "<h2>Kimleri etkiliyor?</h2>" + '<div class="who">' + x.who.map(w => "<span>" + ic("user") + esc(w) + "</span>").join("") + "</div>" +
         (x.todo && x.todo.length ? '<h2>Ne yapmalısınız?</h2><ul class="todo" id="todo">' + x.todo.map((t, i) => '<li><label><input type="checkbox" data-i="' + i + '"><span>' + esc(t) + "</span></label></li>").join("") + '</ul><p class="prog" id="prog">' + x.todo.length + " adımdan 0 tamamlandı.</p>" : "") +
-        '<h2>Kaynaklar</h2><ul class="srclist">' + x.src.map(s => '<li><a href="' + esc(s[1]) + '" target="_blank" rel="noopener">' + ic("ext") + esc(s[0]) + '<span class="sr"> (yeni sekmede açılır)</span></a></li>').join("") + "</ul>" +
+        '<h2 id="article-sources" tabindex="-1">Kaynaklar</h2><ul class="srclist">' + x.src.map(s => '<li><a href="' + esc(s[1]) + '" target="_blank" rel="noopener">' + ic("ext") + esc(s[0]) + '<span class="sr"> (yeni sekmede açılır)</span></a></li>').join("") + "</ul>" +
       "</div></div>" +
       '<aside class="aside" aria-label="Haber künyesi"><div class="abox"><h3>Künye</h3><dl class="kv"><dt>Kurum</dt><dd>' + esc(x.kurum) + "</dd><dt>Tür</dt><dd>" + esc(x.tur) + "</dd><dt>Yayım</dt><dd>" + fD(x.d) + "</dd>" + (x.rg ? "<dt>Resmî Gazete</dt><dd>Sayı " + esc(x.rg) + "</dd>" : "") + "<dt>" + (x.kind === "g" ? "Tarih" : "Yürürlük") + "</dt><dd>" + esc(x.yur) + "</dd><dt>Etki</dt><dd>" + (x.kind === "g" ? "Ekonomi gündemi" : M.IMP[x.imp]) + "</dd></dl></div>" +
         (tl ? '<div class="abox"><h3>Önemli tarihler</h3><ul class="tl">' + tl + "</ul></div>" : "") +
@@ -298,9 +325,17 @@ function frame() {
   $("#tbdate").innerHTML = "<b>" + fD(M.WEEK.to) + '</b> <span class="dn">' + dayName(M.WEEK.to) + "</span>";
   $("#tbrg").innerHTML = '<i aria-hidden="true"></i>Resmî Gazete ' + esc(rgNo(LASTDAY));
   $("#tbmkt").innerHTML = M.MARKET.items.slice(0, 4).map(m => "<span>" + esc(m[0]) + "<b>" + esc(m[1]) + "</b></span>").join("");
-  $("#catnav").innerHTML = '<a href="#ana" data-r="ana">Ana sayfa</a><a href="#bu-hafta" data-r="bu-hafta">Son 7 gün</a><span class="sep" aria-hidden="true"></span>' +
-    M.CATS.map(c => '<a href="#kategori-' + c.k + '" data-r="kategori-' + c.k + '" style="--c:' + cv(c.k) + '"><i aria-hidden="true"></i>' + esc(NAVN[c.k] || c.ad) + "</a>").join("") +
-    '<span class="sep" aria-hidden="true"></span><a href="#takvim" data-r="takvim">Takvim</a><a href="#kaynaklar" data-r="kaynaklar">Kaynaklar</a>';
+  const links = M.CATS.map(c => '<a href="#kategori-' + c.k + '" data-r="kategori-' + c.k + '" style="--c:' + cv(c.k) + '"><i aria-hidden="true"></i>' + esc(NAVN[c.k] || c.ad) + '</a>').join("");
+  const extra = '<a href="#takvim" data-r="takvim">Takvim</a><a href="#kaynaklar" data-r="kaynaklar">Kaynaklar</a>';
+  $("#catnav").innerHTML = '<a href="#ana" data-r="ana">Ana sayfa</a><a href="#haberler" data-r="haberler">Tüm haberler</a><a href="#bu-hafta" data-r="bu-hafta">Son 7 gün</a>' +
+    '<span class="nav-topics">' + M.CATS.filter(c => ["gumruk", "distic", "vergi"].includes(c.k)).map(c => '<a href="#kategori-' + c.k + '" data-r="kategori-' + c.k + '">' + esc(c.ad) + '</a>').join("") + '</span><span class="nav-extra">' + extra + '</span><details class="areas"><summary><span class="wide-label">Haber alanları</span><span class="narrow-label">Menü</span></summary>' +
+    '<div class="areas-panel">' + links + '<div class="mobile-links">' + extra + '</div></div></details>';
+  const areas = $(".areas");
+  areas.addEventListener("click", e => { if (e.target.closest("a")) areas.open = false; });
+  document.addEventListener("click", e => { if (!areas.contains(e.target)) areas.open = false; });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && areas.open) { areas.open = false; $("summary", areas).focus(); }
+  });
   $("#fcats").innerHTML = M.CATS.map(c => '<li><a href="#kategori-' + c.k + '">' + esc(c.ad) + "</a></li>").join("");
 }
 
@@ -316,6 +351,7 @@ function route() {
 let lastKey = "";
 function render(keepScroll) {
   const R = route();
+  $(".areas").open = false;
   const main = $("#icerik");
   let html, title;
   if (R.r === "bu-hafta") { html = pageWeek(); title = "Son 7 gün, " + M.WEEK.label + " | Mevzuat Habercisi"; }
@@ -333,7 +369,7 @@ function render(keepScroll) {
   pr.style.display = R.r === "haber" ? "block" : "none";
   if (R.r === "haber") pr.style.setProperty("--c", cv(c0(byId[R.id])));
   const key = location.hash;
-  if (!keepScroll && key !== lastKey) { window.scrollTo(0, 0); try { main.focus({ preventScroll: true }); } catch (e) {} }
+  if (!keepScroll && key !== lastKey) { window.scrollTo(0, 0); try { if (!(R.r === "haberler" && document.activeElement === $("#q"))) main.focus({ preventScroll: true }); } catch (e) {} }
   lastKey = key;
   growBars(main);
   wire(R);
@@ -342,7 +378,7 @@ function render(keepScroll) {
 
 function wire(R) {
   const vp = $("#vplay");
-  if (vp) vp.addEventListener("click", () => showSplash(true));
+  if (vp) vp.addEventListener("click", showSplash);
   $$(".bar[data-day]").forEach(b => b.addEventListener("click", () => {
     const d = b.getAttribute("data-day");
     if (R.r === "bu-hafta") { state.day = state.day === d ? null : d; render(true); }
@@ -359,6 +395,12 @@ function wire(R) {
     const v = $("#nle").value.trim(), m = $("#nlm");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { m.textContent = "Geçerli bir e-posta adresi yazın, örneğin ad@firma.com.tr."; return; }
     m.textContent = "Teşekkürler. Bu önizlemede kayıt tutulmuyor; site yayına alındığında abonelik bu formdan yapılacak.";
+  });
+  const sources = $("#sources-jump");
+  if (sources) sources.addEventListener("click", () => {
+    const heading = $("#article-sources");
+    heading.focus({ preventScroll: true });
+    heading.scrollIntoView({ block: "start" });
   });
   const cp = $("#copy");
   if (cp) cp.addEventListener("click", () => copyLink(location.href));
@@ -401,11 +443,8 @@ qi.addEventListener("keydown", e => { if (e.key === "Escape") { qi.value = ""; s
 /* giriş videosu */
 const sp = $("#splash"), sv = $("#sv"), sbar = $("#sbar");
 let raf = 0, splashOn = false, lastFocus = null;
-function seen() { try { return sessionStorage.getItem("mh-intro") === "1"; } catch (e) { return false; } }
-function markSeen() { try { sessionStorage.setItem("mh-intro", "1"); } catch (e) {} }
 function tickBar() { if (!splashOn) return; if (sv.duration) sbar.style.transform = "scaleX(" + Math.min(1, sv.currentTime / sv.duration) + ")"; raf = requestAnimationFrame(tickBar); }
-function showSplash(force) {
-  if (!force && (RM || seen())) return;
+function showSplash() {
   splashOn = true; lastFocus = document.activeElement;
   sp.hidden = false; sp.classList.remove("out"); document.body.classList.add("locked");
   try { sv.currentTime = 0; } catch (e) {}
@@ -418,7 +457,7 @@ function showSplash(force) {
 }
 function hideSplash() {
   if (!splashOn) return;
-  splashOn = false; markSeen(); cancelAnimationFrame(raf);
+  splashOn = false; cancelAnimationFrame(raf);
   sp.classList.add("out"); document.body.classList.remove("locked");
   setTimeout(() => { sp.hidden = true; sv.pause(); }, 460);
   if (lastFocus && lastFocus.focus && lastFocus !== document.body) try { lastFocus.focus({ preventScroll: true }); } catch (e) {}
@@ -430,7 +469,12 @@ document.addEventListener("keydown", e => { if (splashOn && (e.key === "Escape" 
 
 /* başlat */
 frame();
+$(".skip").addEventListener("click", e => {
+  e.preventDefault();
+  const main = $("#icerik");
+  main.focus({ preventScroll: true });
+  main.scrollIntoView();
+});
 window.addEventListener("hashchange", () => render(false));
 render(false);
-if (route().r === "ana") showSplash(false);
 })();

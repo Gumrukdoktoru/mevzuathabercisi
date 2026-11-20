@@ -27,18 +27,18 @@
 @font-face{font-family:Newsreader;font-style:italic;font-weight:400;font-display:swap;src:url(fonts/nr-latin-400i.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:Newsreader;font-style:italic;font-weight:400;font-display:swap;src:url(fonts/nr-latin-ext-400i.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 :root{
-  --bg:#FFFFFF;--paper:#FFFFFF;--soft:#F4F5F7;--soft-2:#ECEEF2;
-  --ink:#111729;--ink-2:#454E63;--ink-3:#767F93;--rule:#E1E4EA;--rule-2:#C8CDD7;
+  --bg:#fcfbf8;--paper:#fff;--soft:#f0f1eb;--soft-2:#e5eae3;--accent:#21574b;
+  --ink:#172b26;--ink-2:#45564f;--ink-3:#586962;--rule:#d6dcd4;--rule-2:#b4c0b7;
   --brand:#0E1630;--signal:#FFD43B;--red:#C92A2A;--text:#252C3D;
   --c-gumruk:#0B7285;--c-distic:#3B5BDB;--c-vergi:#E8590C;--c-muhasebe:#9C36B5;--c-finans:#2F9E44;--c-lojistik:#B08900;--c-depolama:#5C6B82;--c-denetim:#C2255C;
   --i-yuk-bg:#FFE3E3;--i-yuk:#C92A2A;--i-usul-bg:#FFF3BF;--i-usul:#8A5A00;--i-bilgi-bg:#EBEEF3;--i-bilgi:#495057;--i-kolay-bg:#D3F9D8;--i-kolay:#2B8A3E;
   --serif:Newsreader,"Iowan Old Style",Georgia,serif;
   --sans:Plex,"IBM Plex Sans","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
-  --w:1240px;--pad:clamp(16px,3.6vw,36px);
+  --w:1376px;--pad:clamp(16px,3.6vw,36px);
   --stripe:linear-gradient(90deg,var(--c-gumruk) 0 12.5%,var(--c-distic) 0 25%,var(--c-vergi) 0 37.5%,var(--c-muhasebe) 0 50%,var(--c-finans) 0 62.5%,var(--c-lojistik) 0 75%,var(--c-depolama) 0 87.5%,var(--c-denetim) 0);
 }
 :root[data-theme="dark"]{
-  --bg:#0D1222;--paper:#131A2E;--soft:#182036;--soft-2:#1E2741;
+  --accent:#9fc8b5;--bg:#0D1222;--paper:#131A2E;--soft:#182036;--soft-2:#1E2741;
   --ink:#EEF1F7;--ink-2:#B7BED0;--ink-3:#8A93A8;--rule:#263049;--rule-2:#34405F;--text:#D6DCE8;
   --c-gumruk:#3BC9DB;--c-distic:#748FFC;--c-vergi:#FF922B;--c-muhasebe:#DA77F2;--c-finans:#69DB7C;--c-lojistik:#FCC419;--c-depolama:#A5B4CB;--c-denetim:#F783AC;
   --i-yuk-bg:#3B1720;--i-yuk:#FFA8A8;--i-usul-bg:#3A3112;--i-usul:#FFE066;--i-bilgi-bg:#232C47;--i-bilgi:#C9D1E3;--i-kolay-bg:#13331F;--i-kolay:#8CE99A;
@@ -441,15 +441,130 @@ a:hover > .img .art-svg,.img:hover .art-svg{transform:scale(1.03)}
 .rgmore{display:inline-block;margin-top:12px}
 .more{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:4px}
 .more:hover{text-decoration-color:currentColor}
-.brand svg{width:46px;height:46px}
+/* Gazete başlığı ve ana gezinme */
+.topbar{background:#173b35;color:#dae6dd;border:0}
+.topbar .wrap{min-height:34px;font-size:12px}
+.topbar .tb-date b,.topbar .tb-rg,.topbar .tb-mkt b{color:#fff}
+.tb-rg{padding-left:16px;border-left:1px solid #628177}
+.tb-rg i{background:#c4d699;width:5px;height:5px}
+.topbar .thm{width:32px;height:32px;background:transparent;color:#fff;border-color:transparent}
+.mast .wrap{padding-block:22px;gap:22px}
+.brand svg{width:44px;height:44px}
+.wm{letter-spacing:-.045em;font-size:clamp(29px,3.5vw,48px)}
+.wm em{font-weight:400}
+.tagline{font:italic 16px/1.3 var(--serif);color:var(--ink-2);max-width:20ch}
+.search{flex-basis:255px}
+.search input{height:40px;background:var(--soft);border-color:var(--rule);border-radius:6px}
+.catnav{border-top:1px solid var(--rule);background:var(--bg)}
+.catnav .wrap{gap:14px;overflow:visible;position:relative;align-items:center}
+.catnav a,.areas summary{height:46px;font:600 14px/1.2 var(--sans)}
+.catnav .wrap>a:first-child{padding-left:0}
+.catnav a::after{bottom:0;height:2px;background:var(--accent)}
+.catnav .wrap>a:first-child::after{left:0}
+.catnav .nav-extra,.nav-topics{display:flex;gap:14px}
+.nav-topics{border-inline:1px solid var(--rule);padding-inline:10px}
+@media(max-width:1000px){.catnav .nav-topics{display:none}}
+.areas{margin-left:auto;position:relative}
+.areas summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--ink)}
+.areas summary::-webkit-details-marker{display:none}
+.areas summary::after{content:"";width:7px;height:7px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:translateY(-2px) rotate(45deg)}
+.areas[open] summary::after{transform:rotate(225deg)}
+.areas-panel{position:absolute;right:0;top:100%;width:340px;padding:12px;display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border:1px solid var(--rule-2);border-radius:0 0 6px 6px;box-shadow:0 14px 36px #101c1929}
+.areas-panel a{white-space:normal;line-height:1.3}
+.areas-panel a:hover{background:var(--soft)}
+.mobile-links,.narrow-label{display:none}
+@media(max-width:720px){
+  .catnav .wrap{gap:clamp(2px,2vw,12px)}
+  .catnav a,.areas summary{font-size:13px}
+  .catnav a{padding-inline:7px}
+  .catnav .nav-extra,.wide-label{display:none}
+  .narrow-label{display:inline}
+  .areas-panel{width:min(340px,calc(100vw - 2 * var(--pad)))}
+  .mobile-links{display:grid;grid-column:1/-1;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule)}
+}
+@media(max-width:640px){
+  .mast .wrap{gap:10px;padding-block:14px}
+  .brand svg{width:34px;height:34px}
+  .search{flex:1 1 100%}
+  .topbar .tb-rg{padding-left:10px}
+}
+
+@media(max-width:360px){
+  .catnav .wrap{gap:2px}
+  .catnav .wrap>a{padding-inline:4px}
+  .areas summary{gap:6px}
+}
+
+/* Manşet, haber akışı ve seçki */
+.edition{display:grid;grid-template-columns:minmax(0,2.55fr) minmax(250px,1fr);align-items:start;gap:32px;padding-top:26px}
+.cover{min-width:0;background:#152723;color:white}
+.cover>a{position:relative;isolation:isolate;display:flex;align-items:flex-end;min-height:clamp(400px,32vw,478px);color:inherit;text-decoration:none}
+.cover-image,.cover-image::after{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.cover-image::after{content:"";z-index:0;background:linear-gradient(90deg,rgba(12,25,23,.94),rgba(12,25,23,.77) 44%,rgba(12,25,23,.05) 91%),linear-gradient(0deg,#101b1aa8,transparent 64%)}
+.news-photo,.cover-image .art-svg{width:100%;height:100%;object-fit:cover}
+.cover-copy{width:min(75%,680px);padding:clamp(22px,2.8vw,42px)}
+.cover-kind,.cover-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font:500 13px/1.3 var(--sans)}
+.cover-kind{color:#e1e9db;margin-bottom:22px}
+.cover-kind::before{content:"";width:24px;height:2px;background:#d9b771}
+.cover-kind span{padding-left:12px;border-left:1px solid #a4b1a9}
+.cover h1{font:600 clamp(32px,3.65vw,60px)/1.03 var(--serif);letter-spacing:-.028em;text-wrap:balance;margin:0}
+.cover a:hover h1{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.09em}
+.cover p{margin:16px 0 22px;max-width:52ch;color:#f1f1eb;font-size:15px;line-height:1.55}
+.cover-foot{color:#e4e8df;gap:20px}
+.cover-foot span{color:#fff;display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.cover-foot span{text-decoration:underline;text-underline-offset:4px}
+.latest .boxh,.picks .boxh{border-top:3px solid var(--accent);border-bottom:1px solid var(--rule);padding:12px 0}
+.boxh h2{font:600 25px/1.1 var(--serif)}
+.flow a{display:block;padding:12px 0}
+.flow-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.flow .k,.rgt,.kick{color:color-mix(in srgb,var(--c) 65%,var(--ink))}
+.flow .k::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:2px}
+.flow time{font:400 12px/1.2 var(--sans);padding:0}
+.flow .t{margin-top:5px;font:600 clamp(17px,1.4vw,21px)/1.17 var(--serif)}
+.picks .under{margin:0;padding:12px 0 0;border:0;gap:18px}
+.issue-rail{min-width:0;display:grid;gap:22px}
+.rgp{border:1px solid var(--rule);border-top:3px solid var(--accent);background:var(--soft);padding:14px 16px}
+.rgtop{flex-wrap:wrap;gap:8px}
+.rgtop h2{font-size:20px}
+.rgno{background:var(--paper);border:1px solid var(--rule);color:var(--ink)}
+.issue-rail summary{cursor:pointer;color:var(--ink);font:600 14px/1.5 var(--sans);padding:8px 0}
+.issue-rail .rgprev{margin:6px 0}
+.img{border-radius:2px}
+.ahead .spot{font-style:normal}
+.hero-img .img{aspect-ratio:2.2}
+#icerik,#article-sources{scroll-margin-top:62px}
+.article-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.article-actions button{margin:0;min-height:36px;border-radius:4px}
+@media(max-width:640px){.article-actions{flex-basis:100%;margin:0}.article-actions button{min-height:42px}}
+.prose{max-width:65ch;font-size:20px;line-height:1.66}
+.prose h2{font:600 27px/1.2 var(--serif)}
+@media(max-width:940px){
+  .edition{grid-template-columns:minmax(0,1.8fr) minmax(225px,1fr);gap:22px}
+  .cover-copy{width:91%}
+}
+@media(max-width:720px){
+  .edition{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:16px}
+  .cover>a{min-height:370px}
+  .cover-copy{width:100%;padding:22px}
+  .cover-image .news-photo{object-position:70% center}
+  .cover-image::after{background:linear-gradient(0deg,#0b1918fa 2%,#0c1b19dd 45%,#0e191954 83%,#0e191915)}
+  .cover h1{font-size:clamp(32px,7.9vw,46px)}
+  .cover-kind{margin-bottom:14px}
+  .cover p{margin:11px 0 16px;font-size:14px}
+  .picks .under{gap:0}
+  .picks .st-md{padding-block:14px;border-bottom:1px solid var(--rule)}
+  .picks .st-md .img{align-self:center}
+  .hero-img .img{aspect-ratio:1.8}
+}
+
 </style>
 </head>
 <body>
 <a class="skip" href="#icerik">İçeriğe geç</a>
 
 <div id="splash" hidden role="dialog" aria-modal="true" aria-label="Giriş videosu">
-  <video id="sv" muted playsinline preload="auto" poster="media/poster.jpg" aria-label="Mevzuat Habercisi tanıtım videosu: son 7 günün mevzuat değişiklikleri ve öne çıkan rakamlar"><source src="media/intro.mp4" type="video/mp4"></video>
-  <button class="skipbtn" id="skip" type="button">Siteye geç<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  <video id="sv" muted playsinline preload="none" poster="media/poster.jpg" aria-label="Mevzuat Habercisi tanıtım videosu: son 7 günün mevzuat değişiklikleri ve öne çıkan rakamlar"><source src="media/intro.mp4" type="video/mp4"></video>
+  <button class="skipbtn" id="skip" type="button">Videoyu kapat<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   <div class="bar" aria-hidden="true"><i id="sbar"></i></div>
 </div>
 
@@ -464,11 +579,11 @@ a:hover > .img .art-svg,.img:hover .art-svg{transform:scale(1.03)}
 </div></div>
 
 <header class="mast"><div class="wrap">
-  <a class="brand" href="#ana" aria-label="Mevzuat Habercisi, ana sayfa"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="11" fill="#0E1630"/><circle cx="24" cy="24" r="17" fill="none" stroke="#FFD43B" stroke-width="1.6" stroke-dasharray="2.2 2.4"/><text x="24" y="33.5" text-anchor="middle" font-family="Newsreader,Georgia,serif" font-weight="700" font-size="27" fill="#FFD43B">§</text></svg><span class="wm">Mevzuat Habercisi</span></a>
-  <p class="tagline">Gümrük, dış ticaret, vergi ve finans mevzuatı. Her sabah güncellenir.</p>
+  <a class="brand" href="#ana" aria-label="Mevzuat Habercisi, ana sayfa"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="23" fill="#1b453a"/><circle cx="24" cy="24" r="17" fill="none" stroke="#dbbf83" stroke-width="1.6" stroke-dasharray="2.2 2.4"/><text x="24" y="33.5" text-anchor="middle" font-family="Newsreader,Georgia,serif" font-weight="700" font-size="27" fill="#fff4d6">§</text></svg><span class="wm">Mevzuat <em>Habercisi</em></span></a>
+  <p class="tagline">Günlük mevzuat gazetesi</p>
   <label class="search"><span class="sr">Haberlerde ara</span>
     <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-    <input id="q" type="search" placeholder="Haberlerde ara: damping, KDV, sigorta…" autocomplete="off">
+    <input id="q" type="search" placeholder="Haberlerde ara…" autocomplete="off">
   </label>
 </div></header>
 
