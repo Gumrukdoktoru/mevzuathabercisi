@@ -60,11 +60,11 @@ const meta = (x, full) => '<div class="meta"><span>' + (full ? fD(x.d) : fDs(x.d
 const head = (x, tag) => "<" + tag + ' class="hl"><a href="' + href(x) + '">' + esc(x.title) + "</a></" + tag + ">";
 
 const stLead = (x, k) => '<article class="st st-lead">' + art(x, "", true, k) + '<div class="kk">' + kick(x, k) + "</div>" + head(x, "h2") + '<p class="spot">' + esc(x.spot) + "</p>" + meta(x, true) + "</article>";
-const stMd = (x, o) => '<article class="st st-md">' + art(x, "", (o && o.nobadge) ? false : "sm", o && o.k) + '<div class="kk">' + kick(x, o && o.k) + "</div>" + head(x, "h3") + (o && o.spot ? '<p class="spot">' + esc(x.spot) + "</p>" : "") + meta(x) + "</article>";
+const stMd = (x, o) => '<article class="st st-md">' + art(x, "", false, o && o.k) + '<div class="kk">' + kick(x, o && o.k) + "</div>" + head(x, "h3") + (o && o.spot ? '<p class="spot">' + esc(x.spot) + "</p>" : "") + meta(x) + "</article>";
 const stSm = (x, k) => '<article class="st st-sm"><div class="kk">' + kick(x, typeof k === "string" ? k : null) + "</div>" + head(x, "h3") + meta(x) + "</article>";
 const stRow = (x, k) => { k = typeof k === "string" ? k : null; return '<article class="st-row"><div class="txt"><div class="kk">' + kick(x, k) + "</div>" + head(x, "h3") + '<p class="spot">' + esc(x.spot) + "</p>" + meta(x, true) + "</div>" + art(x, "r43", false, k) + "</article>"; };
 
-const sech = (title, sub, more, c) => '<div class="sech"' + (c ? ' style="--c:' + c + '"' : "") + "><div><h2>" + title + "</h2>" + (sub ? "<p>" + sub + "</p>" : "") + "</div>" + (more ? '<a class="more" href="' + more[0] + '">' + more[1] + ic("arr") + "</a>" : "") + "</div>";
+const sech = (title, sub, more, c) => '<div class="sech"' + (c ? ' style="--c:' + c + '"' : "") + "><div><h2>" + title + "</h2>" + (sub ? "<p>" + sub + "</p>" : "") + "</div>" + (more ? '<a class="more" href="' + more[0] + '">' + more[1] + "</a>" : "") + "</div>";
 
 function dlItem(x, long) {
   const n = until(x.d), h = x.id ? "#haber-" + x.id : x.u, ext = !x.id;
@@ -107,6 +107,25 @@ function newsletter() {
 }
 const crumb = parts => '<nav class="crumb" aria-label="Konum"><a href="#ana">Ana sayfa</a>' + parts.map(p => ic("chev") + (p[1] ? '<a href="' + p[1] + '">' + esc(p[0]) + "</a>" : "<span>" + esc(p[0]) + "</span>")).join("") + "</nav>";
 
+/* ── Bugünün Resmî Gazetesi ── */
+function rgPanel() {
+  const tracked = M.DAYS.slice().reverse().map(d => ({ d: d, items: ALL.filter(x => x.rg && String(x.rg).split(" ")[0] === rgNo(d)) }));
+  const today = tracked[0];
+  const lastFull = tracked.find(t => t.items.length);
+  const groupOf = x => { const t = String(x.tur || ""); if (/cumhurba/i.test(t)) return "Cumhurbaşkanı kararları"; if (/yönetmelik/i.test(t)) return "Yönetmelikler"; if (/tebliğ/i.test(t)) return "Tebliğler"; if (/genelge/i.test(t)) return "Genelgeler"; if (/karar/i.test(t)) return "Kararlar"; return "Diğer düzenlemeler"; };
+  const list = items => {
+    const groups = {};
+    items.forEach(x => { const g = groupOf(x); (groups[g] = groups[g] || []).push(x); });
+    return Object.keys(groups).map(g => '<h3 class="rgh">' + g + '</h3><ul class="rgl">' + groups[g].map(x => '<li style="--c:' + cv(c0(x)) + '"><a href="' + href(x) + '"><span class="rgt">' + esc(x.tur) + '<span class="sr">, ' + esc(CAT[c0(x)].ad) + '</span></span><span class="rgn">' + esc(x.title) + "</span></a></li>").join("") + "</ul>").join("");
+  };
+  let body;
+  if (today.items.length) body = list(today.items) + (today.d.note ? '<p class="rgnote">' + esc(today.d.note) + "</p>" : "");
+  else body = '<p class="rgnone">' + esc(today.d.note || "Bugünkü sayıda takip alanlarına giren düzenleme yok.") + "</p>" +
+    (lastFull ? '<p class="rgprev">Son düzenleme içeren sayı: ' + fDm(lastFull.d.d) + ", sayı " + esc(rgNo(lastFull.d)) + "</p>" + list(lastFull.items.slice(0, 4)) : "");
+  return '<section class="rgp" aria-labelledby="rg-h"><div class="rgtop"><span class="rgseal" aria-hidden="true">RG</span><div><h2 id="rg-h">Bugünün Resmî Gazetesi</h2><p>' + fD(today.d.d) + ", " + dayName(today.d.d) + "</p></div><span class=\"rgno\">Sayı " + esc(rgNo(today.d)) + "</span></div>" + body +
+    '<a class="more rgmore" href="#bu-hafta">Son 7 günün sayıları</a></section>';
+}
+
 /* ── sayfalar ── */
 const state = { cat: null, day: null, list: "all", q: "" };
 
@@ -115,7 +134,7 @@ function pageHome() {
   const tops = M.TOP.map(id => byId[id]).filter(x => x && x !== lead);
   const under = tops.slice(0, 3);
   while (under.length < 3) { const n = ALL.find(x => x !== lead && under.indexOf(x) < 0); if (!n) break; under.push(n); }
-  const flow = ALL.slice(0, 9);
+  const flow = ALL.slice(0, 6);
   const gLead = byId[M.GUMRUK_LEAD] || ALL.find(x => x.cat.includes("gumruk"));
   const gList = ALL.filter(x => inWeek(x) && x.kind !== "g" && x !== gLead && (x.cat.includes("gumruk") || x.cat.includes("distic"))).slice(0, 5);
   const gCount = ALL.filter(x => inWeek(x) && x.kind !== "g" && (x.cat.includes("gumruk") || x.cat.includes("distic"))).length;
@@ -127,17 +146,17 @@ function pageHome() {
   const archive = M.ARCHIVE_PICKS.map(id => byId[id]).filter(Boolean);
 
   let h = '<div class="wrap"><div class="front"><div>' + stLead(lead) + '<div class="under">' + under.map(x => stMd(x)).join("") + "</div></div>" +
-    '<aside class="side" aria-label="Son eklenenler ve piyasalar">' +
-      '<section><div class="boxh"><h2><span class="dot" aria-hidden="true"></span>Son eklenenler</h2><a class="more" href="#haberler">Tümü' + ic("arr") + '</a></div><ol class="flow">' +
+    '<aside class="side" aria-label="Bugünün Resmî Gazetesi, son eklenenler ve piyasalar">' + rgPanel() +
+      '<section><div class="boxh"><h2><span class="dot" aria-hidden="true"></span>Son eklenenler</h2><a class="more" href="#haberler">Tümü</a></div><ol class="flow">' +
         flow.map(x => '<li><a href="' + href(x) + '" style="--c:' + cv(c0(x)) + '"><time datetime="' + x.d + '"><b>' + pd(x.d).getDate() + "</b>" + MONS[pd(x.d).getMonth()] + '</time><span><span class="k">' + esc(CAT[c0(x)].ad) + '</span><span class="t">' + esc(x.title) + "</span></span></a></li>").join("") + "</ol></section>" +
       '<section><div class="boxh"><h2>Piyasalar</h2></div><table class="mtab"><tbody>' + M.MARKET.items.map(m => "<tr><td>" + esc(m[0]) + (m[2] ? ' <small style="color:var(--ink-3)">(' + esc(m[2]) + ")</small>" : "") + "</td><td>" + esc(m[1]) + "</td></tr>").join("") + '</tbody></table><p class="mnote">' + esc(M.MARKET.asof) + "</p></section>" +
     "</aside></div></div>";
 
   if (gLead) h += '<section class="blk wrap">' + sech('<a href="#kategori-gumruk">Gümrük ve dış ticaret</a>', "Son 7 günde " + gCount + " gelişme: tebliğler, genelgeler, GGM yazıları ve AB kararları", ["#kategori-gumruk", "Tüm gümrük haberleri"], cv("gumruk")) +
     '<div class="desk">' + stMd(gLead, { spot: true }) + "<div>" + gList.map(stSm).join("") + "</div>" +
-    '<div class="dates"><h3>Yaklaşan tarihler</h3><ul class="dl">' + up.slice(0, 5).map(x => dlItem(x)).join("") + '</ul><p style="margin:10px 0 8px"><a class="more" href="#takvim">Takvimin tamamı' + ic("arr") + "</a></p></div></div></section>";
+    '<div class="dates"><h3>Yaklaşan tarihler</h3><ul class="dl">' + up.slice(0, 5).map(x => dlItem(x)).join("") + '</ul><p style="margin:10px 0 8px"><a class="more" href="#takvim">Takvimin tamamı</a></p></div></div></section>';
 
-  h += '<section class="blk wrap">' + sech("Rakamlarla son 7 gün", M.WEEK.label + ": " + WEEKM.length + " mevzuat değişikliği, " + M.WEEK.rgCount + " Resmî Gazete sayısı", ["#bu-hafta", "Son 7 günün panosu"]) +
+  h += '<section class="blk wrap">' + sech("Haftanın rakamları", M.WEEK.label + ": " + WEEKM.length + " mevzuat değişikliği, " + M.WEEK.rgCount + " Resmî Gazete sayısı", ["#bu-hafta", "Son 7 günün panosu"]) +
     '<div class="nums">' + M.TILES.map(t => '<a class="num" href="#haber-' + t.id + '"><span class="kick" style="--c:' + cv(t.c) + '">' + esc(CAT[t.c].ad) + "</span><b>" + (t.old ? "<s>" + esc(t.old) + "</s>" : "") + esc(t.v) + "</b><span>" + esc(t.l) + "</span></a>").join("") + "</div>" +
     '<div class="week2"><div><div class="wcap"><b>Günlere göre mevzuat değişikliği</b><span>Bir güne dokunun, o günün haberleri açılsın</span></div>' + bars() + "</div>" +
     '<button class="vcard" id="vplay" type="button" aria-label="Günün özeti videosunu tam ekran izle"><img src="media/poster.jpg" alt=""><span class="vp"><i>' + ic("play") + "</i><span><b>Günün özeti videosu</b><small>Son 7 gün, 15 saniyede</small></span></span></button></div></section>";

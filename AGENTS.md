@@ -30,6 +30,8 @@ Bu dosya, depoda çalışan her ajanın uyacağı kuralları anlatır. Önce `RE
 - Yazı tipleri: başlıklar ve haber metni Newsreader (serif), arayüz ve rakamlar IBM Plex Sans. Dosyalar `fonts/` klasöründe (`nr-*`, `px-*`); `sg-*` dosyaları yalnızca giriş videosu için.
 - Haber görselleri `js/art.js` ile koda gömülü çizim sahneleridir (her alan için bir sahne; haberin id'sine göre farklı kadraj). Gerçek fotoğraf eklenecekse lisanslı ya da üretilmiş görseller `media/` altına konur ve hangi haberle eşleştiği açıkça belirtilir.
 - Sekiz alanın renk şeridi sayfanın en üstünde ve alt bilgide durur.
+- Ana sayfanın imzası "Bugünün Resmî Gazetesi" panelidir (günün sayısı ve takip alanına giren kalemler, Gazete'nin içindekiler düzeninde). Logo § işaretli mühürdür.
+- Şablon izlerinden kaçının: bağlantı metinlerine ok (→) eklemeyin, bilgileri orta nokta (·) ile birleştirmeyin, başlıklara büyük harfli etiket koymayın.
 - Mevzuat metinleri fıkra numarasıyla ("Md. 3/2" gibi) gösterilmez.
 - Telefonda (390 px) yatay taşma olmamalı; klavyeyle gezinme ve odak görünürlüğü korunmalı; `prefers-reduced-motion` dikkate alınmalı.
 

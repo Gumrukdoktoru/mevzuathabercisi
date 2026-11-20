@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mevzuat Habercisi | Gümrük, dış ticaret, vergi ve finansman mevzuatı</title>
 <meta name="description" content="Gümrük, dış ticaret, vergi, muhasebe, finansman, lojistik, depolama ve denetim alanındaki mevzuat değişiklikleri her sabah: ayrıntılı haberler, son 7 günün panosu ve yaklaşan tarihler.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect x=%221%22 y=%221%22 width=%2230%22 height=%2230%22 rx=%228%22 fill=%22%230E1630%22/%3E%3Crect x=%225%22 y=%2213%22 width=%2222%22 height=%226.4%22 rx=%221.6%22 fill=%22%23FFD43B%22/%3E%3Crect x=%227%22 y=%2214.9%22 width=%2218%22 height=%222.6%22 rx=%221.3%22 fill=%22%230E1630%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22%3E%3Crect x=%221%22 y=%221%22 width=%2246%22 height=%2246%22 rx=%2211%22 fill=%22%230E1630%22/%3E%3Ctext x=%2224%22 y=%2234%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 font-weight=%22700%22 font-size=%2228%22 fill=%22%23FFD43B%22%3E%C2%A7%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="fonts/nr-latin-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/px-latin-400.woff2" as="font" type="font/woff2" crossorigin>
 <script>try{if(localStorage.getItem("mh-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script>
@@ -421,6 +421,27 @@ a:hover > .img .art-svg,.img:hover .art-svg{transform:scale(1.03)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:8px;font-weight:600;font-size:15px;opacity:0;transition:.25s;z-index:250;pointer-events:none}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* Bugünün Resmî Gazetesi */
+.rgp{border-top:4px double var(--ink);border-bottom:1px solid var(--rule);padding:14px 0 16px}
+.rgtop{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--rule);margin-bottom:6px}
+.rgseal{flex:none;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font:700 14px/1 var(--serif);letter-spacing:.02em}
+.rgtop h2{margin:0;font:700 21px/1.15 var(--serif);letter-spacing:-.01em}
+.rgtop p{margin:2px 0 0;font-size:13px;color:var(--ink-3)}
+.rgno{margin-left:auto;align-self:flex-start;font:600 12.5px var(--sans);background:var(--signal);color:#0E1630;border-radius:4px;padding:3px 8px;white-space:nowrap}
+.rgh{margin:14px 0 4px;font:600 13px var(--sans);color:var(--ink-3)}
+.rgl{list-style:none;margin:0;padding:0}
+.rgl a{display:block;padding:8px 0 8px 12px;border-left:3px solid var(--c);text-decoration:none;margin:6px 0}
+.rgt{display:block;font:600 12px/1.3 var(--sans);color:var(--c)}
+.rgn{display:block;font:600 16px/1.25 var(--serif);color:var(--ink);margin-top:2px}
+.rgl a:hover .rgn{text-decoration:underline}
+.rgnone{margin:10px 0 4px;font:400 16px/1.45 var(--serif);color:var(--ink-2);font-style:italic}
+.rgprev{margin:12px 0 0;font-size:13px;color:var(--ink-3);font-weight:600}
+.rgnote{margin:10px 0 0;font-size:13px;color:var(--ink-3)}
+.rgmore{display:inline-block;margin-top:12px}
+.more{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:4px}
+.more:hover{text-decoration-color:currentColor}
+.brand svg{width:46px;height:46px}
 </style>
 </head>
 <body>
@@ -443,7 +464,7 @@ a:hover > .img .art-svg,.img:hover .art-svg{transform:scale(1.03)}
 </div></div>
 
 <header class="mast"><div class="wrap">
-  <a class="brand" href="#ana" aria-label="Mevzuat Habercisi, ana sayfa"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="7" fill="#0E1630"/><rect x="7" y="8" width="18" height="2.6" rx="1.3" fill="#F2F4F8" opacity=".45"/><rect x="5" y="13" width="22" height="6.4" rx="1.6" fill="#FFD43B"/><rect x="7" y="14.9" width="18" height="2.6" rx="1.3" fill="#0E1630"/><rect x="7" y="21.8" width="11" height="2.6" rx="1.3" fill="#F2F4F8" opacity=".45"/></svg><span class="wm">Mevzuat Habercisi</span></a>
+  <a class="brand" href="#ana" aria-label="Mevzuat Habercisi, ana sayfa"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="11" fill="#0E1630"/><circle cx="24" cy="24" r="17" fill="none" stroke="#FFD43B" stroke-width="1.6" stroke-dasharray="2.2 2.4"/><text x="24" y="33.5" text-anchor="middle" font-family="Newsreader,Georgia,serif" font-weight="700" font-size="27" fill="#FFD43B">§</text></svg><span class="wm">Mevzuat Habercisi</span></a>
   <p class="tagline">Gümrük, dış ticaret, vergi ve finans mevzuatı. Her sabah güncellenir.</p>
   <label class="search"><span class="sr">Haberlerde ara</span>
     <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
