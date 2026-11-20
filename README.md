@@ -10,6 +10,7 @@ Eğitim ortağı: Gümrük Koçu - Ufuk Çetintaş.
 | --- | --- |
 | `index.html` | Sayfa iskeleti ve tüm stiller (CSS). Görünümle ilgili değişikliklerin çoğu burada yapılır. |
 | `js/app.js` | Sayfaları çizen kod: ana sayfa, son 7 gün panosu, haber sayfası, alan sayfaları, takvim, kaynaklar. |
+| `js/art.js` | Haber görselleri: her alan için çizim sahnesi üretir. |
 | `js/data.js` | Haberlerin ve sayfa ayarlarının tamamı (`window.MH`). Her sabah otomatik güncellenir. |
 | `media/` | Giriş videosu (`intro.mp4`) ve kapak görseli (`poster.jpg`). Her sabah yeniden üretilir. |
 | `fonts/` | Sitenin yazı tipi dosyaları. |

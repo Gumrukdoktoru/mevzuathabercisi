@@ -1,9 +1,9 @@
-/* mevzuathabercisi.com — içerik verisi (13–19 Kasım 2026 haftası ve arşiv) */
+/* mevzuathabercisi.com — içerik verisi (14–20 Kasım 2026 haftası ve arşiv) */
 window.MH = (function () {
 
 /* Kayan 7 günlük pencere. Günlük güncellemede from/to/label/updated ve DAYS birlikte güncellenir. */
-const WEEK = { from: "2026-11-13", to: "2026-11-19", label: "13–19 Kasım 2026", rgCount: 7, kurumCount: 10, srcCount: 24,
-  updated: "19 Kasım 2026, 07:30", note: "19 Kasım sayısında takip alanlarında düzenleme yok; 18 Kasım sayısından iki karar eklendi." };
+const WEEK = { from: "2026-11-14", to: "2026-11-20", label: "14–20 Kasım 2026", rgCount: 7, kurumCount: 11, srcCount: 27,
+  updated: "20 Kasım 2026, 07:10", note: "20 Kasım sayısında takip alanlarında düzenleme yok; Ticaret Bakanlığının deniz ve hava ulaştırmacılığı muafiyet genelgesi ile SGK ve SEDDK genelgeleri eklendi." };
 
 const CATS = [
   { k: "gumruk",   ad: "Gümrük" },
@@ -19,12 +19,12 @@ const CATS = [
 const IMP = { yuk: "Yükümlülük", usul: "Usul", bilgi: "Bilgi", kolay: "Kolaylık" };
 
 const DAYS = [
-  { d: "2026-11-13", rg: "33429" },
   { d: "2026-11-14", rg: "33430" }, { d: "2026-11-15", rg: "33431" },
   { d: "2026-11-16", rg: "33432", note: "4 üniversite yönetmeliği yayımlandı; takip alanlarının dışında." },
   { d: "2026-11-17", rg: "33433", note: "2 yönetmelik ve 1 Anayasa Mahkemesi kararı yayımlandı; takip alanlarının dışında." },
   { d: "2026-11-18", rg: "33434" },
-  { d: "2026-11-19", rg: "33435", note: "Pilot Lisans Yönetmeliği değişikliği ve 2 üniversite yönetmeliği yayımlandı; takip alanlarının dışında." }
+  { d: "2026-11-19", rg: "33435", note: "Pilot Lisans Yönetmeliği değişikliği ve 2 üniversite yönetmeliği yayımlandı; takip alanlarının dışında." },
+  { d: "2026-11-20", rg: "33436", note: "Belediye Meclisi Çalışma Yönetmeliği değişikliği, 2 EPDK ve 6 Nükleer Düzenleme Kurulu kararı yayımlandı; takip alanlarının dışında." }
 ];
 
 /* kind: m = mevzuat değişikliği, g = ekonomi gündemi */
@@ -421,6 +421,41 @@ const ITEMS = [
   dates: [["2026-10-13", "Yüksek Düzeyli Ticaret Diyaloğu"], ["2026-11-09", "Niyet Beyanı"], ["2026-11-11", "Bakanlık duyurusu"]],
   src: [["Ticaret Bakanlığı", "https://ticaret.gov.tr/haberler/turkiye-ab-ticaretinde-dijital-entegrasyon-icin-onemli-adim-elektronik-imzalarin-karsilikli-taninmasina-yonelik-is-birligi-sureci-basliyor"], ["Alomaliye", "https://www.alomaliye.com/2026/11/11/turkiye-ab-ticaretinde-e-imza-adimi/"], ["CNBC-e", "https://www.cnbce.com/haberler/e-imza-avrupaya-aciliyor-turkiye-ile-ab-arasinda-yeni-surec-basladi-h41745"]] },
 
+/* ───────── 17 KASIM ───────── */
+{ id: "sgk-ihale-borc-genelgesi", d: "2026-11-17", kind: "m", cat: ["muhasebe"], imp: "usul",
+  kurum: "SGK", tur: "Genelge 2026/23", rg: null, yur: "15 Kasım ve sonrası ilan edilen ihaleler",
+  title: "SGK, ihalelerde 50.000 TL prim borcu sınırının nasıl uygulanacağını açıkladı",
+  spot: "SGK'nın 2026/23 sayılı Genelgesi, kamu ihalelerinde istenen borcu yoktur belgesinde yeni 50.000 TL sınırının uygulamasını düzenliyor. Hangi sınırın geçerli olacağı ihalenin ilan tarihine göre belirleniyor.",
+  key: { old: "5.000 TL", neu: "50.000 TL", ks: "Borcu yoktur belgesinde kesinleşmiş prim borcu sınırı" },
+  body: [
+    "Sigorta Primleri Genel Müdürlüğü'nün 13 Kasım tarihli genelgesi 2020/5 sayılı Genelge'yi değiştiriyor ve 17 Kasım'da yayımlandı. Dayanağı, 16 Ekim'de Resmî Gazete'de yayımlanan Kamu İhale Genel Tebliği değişikliği.",
+    "15 Kasım 2026'dan önce ilanı veya duyurusu yapılan ihalelerde 5.000 TL, 15 Kasım ve sonrasında ilan edilenlerde 50.000 TL sınırı uygulanıyor. Borç sınırın altında ya da sınıra eşitse Ek-1 (borcu yoktur), üzerindeyse borç tutarını gösteren Ek-2 belgesi veriliyor.",
+    "Tüzel kişi işverenlerde Türkiye genelindeki borçlar toplanıyor; alt işveren olunan işyerlerinin borçları da hesaba katılıyor. 4/a ve 4/c kapsamındaki borçlar ayrı ayrı değerlendiriliyor. Gerçek kişilerde 4/b ve genel sağlık sigortası borçları birlikte, ortağı veya yöneticisi olunan şirketin borçlarından sorumlu olunan tutar ayrıca dikkate alınıyor.",
+    "Yapılandırılmış ve taksitleri düzenli ödenen borçlar ile takibi durduran bir yargı kararı bulunan borçlar hesaba katılmıyor. Yapılandırması bozulan işverenlerde vadesi geçmiş taksitler geç ödeme zammıyla birlikte değerlendiriliyor."
+  ],
+  tbl: { cap: "Hangi belge verilir?", h: ["Durum", "Sonuç"], r: [["İlan tarihi 15 Kasım'dan önce", "5.000 TL sınırı"], ["İlan tarihi 15 Kasım ve sonrası", "50.000 TL sınırı"], ["Borç sınırın altında veya sınıra eşit", "Ek-1: borcu yoktur"], ["Borç sınırın üzerinde", "Ek-2: borç tutarı gösterilir"], ["Düzenli ödenen yapılandırılmış borç", "Hesaba katılmaz"]] },
+  who: ["İhaleye giren işverenler", "Mali müşavirler", "Bordro ve SGK birimleri"],
+  todo: ["Belge için ihale tarihini belirterek SGK il müdürlüğüne veya sosyal güvenlik merkezine başvurun", "Alt işveren olduğunuz işyerlerinin borçlarını da toplama ekleyerek sınırı önceden hesaplayın", "Yapılandırma taksitlerinizi ihale öncesinde aksatmayın"],
+  warn: "Tüzel kişilerde Türkiye genelindeki borçlar ve alt işveren borçları toplanarak sınırla karşılaştırılıyor; tek bir işyerinin borcuna bakmak yanıltıcı olur.",
+  dates: [["2026-11-13", "Genelge tarihi"], ["2026-11-15", "Yeni sınırın başlangıcı"], ["2026-11-17", "Yayım"]],
+  src: [["Alomaliye, genelge metni", "https://www.alomaliye.com/2026/11/17/sgk-genelgesi-2026-23/"], ["Muhasebetr", "https://www.muhasebetr.com/muhasebeyazilari/guncelmevzuat/mevzuat_oku.php?mevzuat_id=7261"]] },
+
+{ id: "seddk-broker-ic-denetim", d: "2026-11-17", kind: "m", cat: ["finans", "denetim"], imp: "yuk",
+  kurum: "SEDDK", tur: "Genelge 2026/32 ve 2026/33", rg: null, yur: "Yayım günü",
+  title: "Sigorta brokerlerine iç denetim birimi zorunluluğu, destek hizmetlerine izin şartı",
+  spot: "SEDDK'nın iki yeni genelgesiyle tüzel kişi sigorta ve reasürans brokerleri iç denetim birimi kuracak; sigorta şirketleri yönetmelik kapsamı dışındaki destek hizmetlerini yalnızca Kurumdan izinli sağlayıcılardan alabilecek.",
+  key: { kv: "2 ay", ks: "Brokerlerin iç denetim birimi için Kuruma başvuru süresi" },
+  body: [
+    "16 Kasım tarihli 2026/33 sayılı Genelge'ye göre ruhsatlı ve faaliyetteki tüm tüzel kişi brokerler iç denetim sistemi kurmak ve iç denetim birimi oluşturmakla yükümlü. Birimde bir iç denetim sorumlusu ve en az bir iç denetim personeli bulunacak; çalışma esaslarını yönetim kurulunun onaylayacağı iç denetim yönetmeliği belirleyecek. Kuruma başvuru süresi genelgenin yayımından itibaren 2 ay.",
+    "13 Kasım tarihli 2026/32 sayılı Genelge, Sigortacılık Destek Hizmetleri Hakkında Yönetmelik'in uygulamasını düzenliyor. Yönetmeliğin saydığı hizmetler dışındaki destek hizmetleri için Kurumdan izin alınması gerekiyor; şirketler yalnızca izinli sağlayıcılardan hizmet alabilecek ve Kurum izinleri internet sitesinde ilan edecek.",
+    "Hizmet alan şirketler sağlayıcı listesini ve yıllık değerlendirme raporunu en geç izleyen yılın Mart ayı sonuna kadar Kuruma gönderecek. Sağlayıcı ve hasar araştırmacılarındaki değişiklikler 15 gün içinde bildirilecek. Hasar araştırmacılığında en az 2 yıllık mesleki deneyim aranıyor."
+  ],
+  tbl: { h: ["Genelge", "Kimi bağlıyor", "Ana yükümlülük"], r: [["2026/33 (16 Kasım)", "Tüzel kişi sigorta ve reasürans brokerleri", "İç denetim birimi; 2 ay içinde Kuruma başvuru"], ["2026/32 (13 Kasım)", "Sigorta şirketleri ve destek hizmeti sağlayıcıları", "Yönetmelik dışındaki hizmetlerde Kurum izni; yıllık raporlama"]] },
+  who: ["Sigorta ve reasürans brokerleri", "Sigorta şirketleri", "Destek hizmeti sağlayıcıları ve hasar araştırmacıları"],
+  todo: ["Brokerler: iç denetim sorumlusu ve personelini belirleyip 2 aylık süre içinde Kuruma başvurun", "Sigorta şirketleri: destek hizmeti aldığınız firmaların Kurum iznini kontrol edin", "Sağlayıcı ve hasar araştırmacılarındaki değişiklikleri 15 gün içinde bildirin"],
+  dates: [["2026-11-13", "Genelge 2026/32"], ["2026-11-16", "Genelge 2026/33"]],
+  src: [["Alomaliye, 17.11.2026", "https://www.alomaliye.com/?p=194418"]] },
+
 /* ───────── 18 KASIM ───────── */
 { id: "iplik-damping-surdurme", d: "2026-11-18", kind: "m", cat: ["gumruk", "distic"], imp: "yuk",
   kurum: "Ticaret Bakanlığı", tur: "Tebliğ 2026/32", rg: "33434", yur: "Yayım günü",
@@ -528,6 +563,30 @@ const ITEMS = [
   warn: "Sertifikanın düzenlendiği tarih fark etmiyor: bu iki firmanın sertifikaları 12 Kasım'dan itibaren kabul edilmiyor.",
   dates: [["2026-11-12", "Sertifikalar kabul edilmiyor"], ["2026-11-17", "Birlik sirküleri"]],
   src: [["OAİB sirküleri 2026/469-11312", "https://oaib.org.tr/Uploads/Sirkuler/2026469-11312.pdf"], ["OAİB duyurular", "https://oaib.org.tr/duyurular-ve-bilgilendirme"]] },
+
+/* ───────── 19 KASIM ───────── */
+{ id: "deniz-hava-muafiyet-genelgesi", d: "2026-11-19", kind: "m", cat: ["gumruk", "lojistik"], imp: "usul",
+  kurum: "Ticaret Bakanlığı", tur: "Genelge 2026/12", rg: null, yur: "19 Kasım 2026 (duyuru)",
+  title: "Deniz ve hava ulaştırmacılığında gümrük muafiyeti yeni kodlarla yeniden düzenlendi",
+  spot: "Ticaret Bakanlığı, gemi ve hava taşıtlarında kullanılan donatım ve işletme malzemesinin gümrük muafiyetini 2026/12 sayılı Genelge ile yeniden düzenledi. Muafiyet kodları sektöre ve yararlanıcıya göre ayrıldı; denizcilik malzemesi de GTİP bazında listelendi.",
+  key: { kv: "5 kod", ks: "97DNZ, BK97A, BK97B, BK972 ve 97AKS" },
+  body: [
+    "Genelge, Ulaştırma ve Altyapı Bakanlığı ile birlikte hazırlandı ve 4458 sayılı Gümrük Kanunu'na dayanıyor. Bakanlık 19 Kasım'daki açıklamasında gerekli teknik düzenlemelerin BİLGE sisteminde tamamlanarak uygulamaya alındığını bildirdi; firmalar ve gümrük müşavirleri için bir uygulama broşürü de yayımlandı.",
+    "Denizcilikteki donatım ve işletme malzemeleri, havacılıkta olduğu gibi GTİP bazında belirlendi. Muafiyet için eşyanın listede yer alması ve firmanın yetkilendirilmiş olması gerekiyor: denizcilik firmaları Tersaneler ve Kıyı Yapıları Genel Müdürlüğü'ne, havacılık firmaları Sivil Havacılık Genel Müdürlüğü'ne başvuruyor. Uygun bulunan firmaların vergi numaraları yıllık izin yazısına göre BİLGE'de ilgili kodla tanımlanıyor; ithalat yalnızca tanımlı GTİP'ler için ve izin süresi içinde yapılabiliyor.",
+    "97DNZ koduyla ithal edilen eşya için ayrıca DENTV kodu kullanılamayacak. Yolcu taşımacılığında kullanılacak hava taşıtlarında koltuk kapasitesinin en az 20 olması gerekiyor; yük taşımacılığında böyle bir sınır yok.",
+    "Genelge metnine göre 2014/17 sayılı Genelge ve onu değiştiren genelgeler yürürlükten kaldırıldı."
+  ],
+  tbl: { cap: "Muafiyet kodları", h: ["Kod", "Kapsam", "Yetkili kurum"], r: [
+    ["97DNZ", "Deniz ulaşım araçlarının donatım ve işletme malzemesi (Ek-1)", "Tersaneler ve Kıyı Yapıları GM"],
+    ["BK97A", "Hava ulaşım araçlarının donatım ve işletme malzemesi (Ek-2)", "Sivil Havacılık GM"],
+    ["BK97B", "Yetkili bakım, tedarik, tasarım ve üretim kuruluşlarının kullandığı Ek-2 malzemesi", "Ulaştırma ve Altyapı Bakanlığı"],
+    ["BK972", "Havayolu şirketlerinin ithal ettiği hava taşıtları ve motorları (Ek-3)", "Sivil Havacılık GM"],
+    ["97AKS", "Ek-2'de yer almayan hava taşıtı ve motor aksam ve parçaları", "Sivil Havacılık GM"]] },
+  who: ["Denizcilik ve havacılık şirketleri", "Hava aracı bakım ve tedarik kuruluşları", "Gümrük müşavirleri"],
+  todo: ["Vergi numaranızın BİLGE'de doğru muafiyet koduyla tanımlandığını kontrol edin", "Beyannamede eşyaya uygun muafiyet kodunu seçin; 97DNZ ile DENTV kodunu birlikte kullanmayın", "İthalatı izin yazısındaki süre ve GTİP listesi içinde yapın", "Muaf eşyayı devretmeden, satmadan veya kiralamadan önce gümrük idaresine yazılı başvurun"],
+  warn: "Muafiyetle ithal edilen eşyanın muafiyet hakkı olmayanlara devri, satışı veya kiralanması gümrük idaresinin iznine bağlı; bu durumda doğması gereken gümrük vergileri tahsil ediliyor.",
+  dates: [["2026-11-19", "Bakanlık açıklaması"]],
+  src: [["Takvim, 19.11.2026", "https://www.takvim.com.tr/ekonomi/2026/11/19/ticaret-bakanligi-deniz-ve-hava-ulasiminda-gumruk-muafiyetini-yeniden-duzenledi"], ["Ticaret Bakanlığı, genelge metni (PDF)", "https://ticaret.gov.tr/data/695e56a213b8762ee8546909/2026-12%20Say%C4%B1l%C4%B1%20Genelge-Deniz%20ve%20Hava%20Ula%C5%9Ft%C4%B1rmac%C4%B1l%C4%B1%C4%9F%C4%B1nda%20Kullan%C4%B1lan%20E%C5%9Fya.pdf"], ["Aeroportist", "https://www.aeroportist.com/deniz-ve-hava-ulastirmasinda-gumruk-muafiyeti-yeniden-duzenlendi-2026-12-sayili-genelge/"], ["ANKA, 19.11.2026", "https://ankahaber.net/haber/ticaret-bakanligi-deniz-ve-hava-ulastirmasinda-gumruk-muafiyeti-uygulamalarini-yeniden-duzenledi-bcb81774"], ["mevzuat.net güncellik", "https://www.mevzuat.net/Guncellik.aspx"]] },
 
 /* ───────── ARŞİV: 1–10 KASIM VE EKİM ───────── */
 { id: "ncts-ihracat-kapatma", d: "2026-11-10", kind: "m", cat: ["gumruk", "lojistik"], imp: "kolay",
@@ -732,9 +791,9 @@ const ITEMS = [
 ];
 
 const LEAD = "ihale-borc-siniri";
-const TOP = ["iplik-damping-surdurme", "yabanci-yatirimci-ikamet", "ykts-police-zorunlu-alan", "adil-katilim-tmsf"];
+const TOP = ["deniz-hava-muafiyet-genelgesi", "iplik-damping-surdurme", "yabanci-yatirimci-ikamet", "adil-katilim-tmsf"];
 const GUMRUK_LEAD = "ab-soguk-celik-antidamping";
-const ARCHIVE_PICKS = ["butunlesik-sigorta", "dir-maden-metal-genelgesi", "tcmb-enflasyon-raporu", "vuk-597-borclu-listesi"];
+const ARCHIVE_PICKS = ["vuk-597-borclu-listesi", "taksi-mali-cihaz", "butunlesik-sigorta", "dir-maden-metal-genelgesi"];
 
 const TILES = [
   { id: "ihale-borc-siniri", c: "vergi", old: "5.000", v: "50.000 TL", l: "Kamu ihalesinde vergi ve SGK borç sınırı" },
@@ -757,8 +816,8 @@ const DATES = [
 ];
 
 const MARKET = {
-  asof: "18 Kasım 18:30 itibarıyla, kaynak Bloomberg HT",
-  items: [["USD/TRY", "50,44"], ["EUR/TRY", "55,37"], ["Gram altın", "6.095,96 TL"], ["Ons altın", "3.769 $"], ["BIST 100", "11.477,41", "18 Kasım kapanışı"]]
+  asof: "19 Kasım 18:30 itibarıyla, kaynak Bloomberg HT",
+  items: [["USD/TRY", "50,47"], ["EUR/TRY", "55,63"], ["Gram altın", "6.008,80 TL"], ["Ons altın", "3.718 $"], ["BIST 100", "11.400,09", "19 Kasım kapanışı"]]
 };
 
 const SOURCES = [

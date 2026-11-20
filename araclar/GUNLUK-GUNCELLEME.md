@@ -110,7 +110,9 @@ Kareleri Read ile aç ve bak: sayı, gün çubukları ve dört kart taşmadan g�
 - `media/intro.mp4` ← is/site/media/intro.mp4
 - `media/poster.jpg` ← is/site/media/poster.jpg
 
-Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve yeniden yayınla. index.html, js/app.js ve src/ dosyalarını değiştirme.
+Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve yalnızca bu üç dosyayla yeniden yayınla.
+
+**Kesin kural:** `index.html`, `js/app.js`, `js/art.js`, `fonts/` ve `src/` dosyalarını hiçbir koşulda yayınlama, okuma amacıyla bile `files` listesine koyma. Bu dosyalar tasarımdır ve ayrı yönetilir. `read_file` bir HTML dosyasını döndürürken başına okuma için bir sarmalayıcı (`<!doctype html><html><head>…<body>`) ekleyebilir; böyle bir kopya yayınlanırsa site bozulur.
 
 ## 7. Raporla
 

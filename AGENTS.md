@@ -26,7 +26,10 @@ Bu dosya, depoda çalışan her ajanın uyacağı kuralları anlatır. Önce `RE
 - Açık zemin ve rahat okuma esastır. Sayfa geneline koyu arka plan konmaz; koyu görünüm yalnızca sağ üstteki düğmeyle seçilir.
 - Yazı yığını yapılmaz: kısa başlık, bir iki cümlelik özet, büyük ana rakam.
 - Alan renkleri sabittir (`--c-gumruk`, `--c-distic`, `--c-vergi`, `--c-muhasebe`, `--c-finans`, `--c-lojistik`, `--c-depolama`, `--c-denetim`); bir alan her yerde aynı renkle görünür.
-- Görsel dil: dosya sekmeleri, "Yeni" damgası, alan çizimleri, sekiz alanın renk şeridi.
+- Düzen: ekonomi gazetesi. Büyük manşet ve yanında "Son eklenenler" akışı, altında alan bölümleri; bölüm başlıkları alan renginde üst çizgiyle ayrılır.
+- Yazı tipleri: başlıklar ve haber metni Newsreader (serif), arayüz ve rakamlar IBM Plex Sans. Dosyalar `fonts/` klasöründe (`nr-*`, `px-*`); `sg-*` dosyaları yalnızca giriş videosu için.
+- Haber görselleri `js/art.js` ile koda gömülü çizim sahneleridir (her alan için bir sahne; haberin id'sine göre farklı kadraj). Gerçek fotoğraf eklenecekse lisanslı ya da üretilmiş görseller `media/` altına konur ve hangi haberle eşleştiği açıkça belirtilir.
+- Sekiz alanın renk şeridi sayfanın en üstünde ve alt bilgide durur.
 - Mevzuat metinleri fıkra numarasıyla ("Md. 3/2" gibi) gösterilmez.
 - Telefonda (390 px) yatay taşma olmamalı; klavyeyle gezinme ve odak görünürlüğü korunmalı; `prefers-reduced-motion` dikkate alınmalı.
 
