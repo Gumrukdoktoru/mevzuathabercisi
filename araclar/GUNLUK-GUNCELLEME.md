@@ -91,7 +91,20 @@ cd is/video
 node kontrol.js ../site/js/data.js        # HATA satırı varsa düzelt, tekrar çalıştır
 ```
 
-## 5. Videoyu üret
+## 5. ChatGPT ile birlikte kontrol et (GitHub çekme isteği)
+
+Her günün haberleri yayından önce ChatGPT'nin (Codex) incelemesinden geçer. Codex, GitHub'daki çekme isteğini (pull request) okur ve `AGENTS.md` içindeki "Code Review Rules" bölümüne göre her haberi kaynaklarıyla karşılaştırır.
+
+1. **Dünden kalanlar:** Önce bir önceki günün "Günlük güncelleme" çekme isteğine sonradan gelmiş Codex yorumu var mı bak (aşağıdaki 6. maddedeki adreslerle). Haklı bulduğun düzeltmeleri bugünkü güncellemeye ekle.
+2. **Depoyu al:** ToolSearch ile `mcp__claude-code-remote__add_repo` aracını yükle; `owner: Gumrukdoktoru`, `repo: mevzuathabercisi`, `access: push` ile çağır ve aracın verdiği komutla klonla. Araç ya da klon başarısız olursa bu bölümü atla, 6. ve 7. bölümlerle devam et ve raporda "ChatGPT kontrolü yapılamadı" yaz.
+3. **Dal ve commit:** `main` dalından `gunluk/YYYY-AA-GG` adlı bir dal aç. Güncellediğin `js/data.js` dosyasını klona kopyala, `git commit -m "Günlük güncelleme: GG Ay YYYY"` ile kaydet (commit mesajının sonuna oturumun verdiği ortak yazar satırlarını ekle) ve `git push -u origin gunluk/YYYY-AA-GG` ile gönder.
+4. **Çekme isteği:** `gh api repos/Gumrukdoktoru/mevzuathabercisi/pulls -f title="Günlük güncelleme: GG Ay YYYY" -f head=gunluk/YYYY-AA-GG -f base=main -f body="..."` ile aç. Açıklamaya bugün eklenen ve değişen her haberin `id` değerini, başlığını ve kaynak bağlantılarını madde madde yaz.
+5. **ChatGPT'yi çağır:** Aynı çekme isteğine şu yorumu yaz: `gh api repos/Gumrukdoktoru/mevzuathabercisi/issues/<numara>/comments -f body="@codex review Bu çekme isteğindeki yeni ve değişen haberleri AGENTS.md içindeki Code Review Rules bölümüne göre kaynaklarıyla karşılaştır. Bulguları Türkçe yaz."`
+6. **Bekle:** İki dakikada bir şu üç adrese bak, en çok 25 dakika: `gh api repos/Gumrukdoktoru/mevzuathabercisi/pulls/<numara>/reviews`, `.../pulls/<numara>/comments`, `.../issues/<numara>/comments`. Yazarının (`user.login`) adında "codex" ya da "chatgpt" geçen (büyük-küçük harf fark etmez) inceleme veya yorumlar ChatGPT'nindir. Codex işe başladığında yorumuna 👀 tepkisi bırakır (`gh api repos/Gumrukdoktoru/mevzuathabercisi/issues/comments/<yorum-id>/reactions`).
+7. **Bulguları değerlendir:** Her bulguyu ilgili kaynağı açarak kendin doğrula. Haklıysa `js/data.js`'i düzelt, `node kontrol.js` ile yeniden denetle, aynı dala commit edip gönder. Haksızsa nedenini not al. Sonunda çekme isteğine Türkçe bir yorum yaz: hangi bulgular düzeltildi, hangileri hangi gerekçeyle kabul edilmedi.
+8. **İnceleme gelmezse:** 25 dakikada ChatGPT'den yanıt gelmezse kendi denetiminle devam et; raporda "ChatGPT incelemesi zamanında gelmedi" yaz. Çekme isteğini yine de birleştir; geç gelen yorumlar ertesi sabah 1. maddede ele alınır.
+
+## 6. Videoyu üret
 
 ```
 cd is/video
@@ -102,21 +115,16 @@ python3 render.py stills vdata.json 5.6 9.8          # still_05.60.png ve still_
 
 Kareleri Read ile aç ve bak: sayı, gün çubukları ve dört kart taşmadan görünmeli. Gerekiyorsa TILES metinlerini kısaltıp yeniden üret. Chrome (/usr/bin/google-chrome), python playwright ve ffmpeg ortamda hazırdır.
 
-## 6. GitHub'daki tasarımı al ve yayınla
+## 7. Yayınla ve birleştir
 
-Sitenin kodu GitHub'da da durur: https://github.com/Gumrukdoktoru/mevzuathabercisi . ChatGPT (Codex) ve Claude tasarım değişikliklerini orada yapar; `main` dalına alınan değişiklikler her sabah bu adımda canlı siteye taşınır.
-
-1. `mcp__claude-code-remote__add_repo` aracını (ToolSearch ile yükle) `owner: Gumrukdoktoru`, `repo: mevzuathabercisi`, `access: push` ile çağır ve aracın söylediği komutla depoyu klonla. Araç ya da klon başarısız olursa bu adımın 2. ve 4. maddelerini atla, yalnızca 3. maddedeki üç dosyayı yayınla ve raporda GitHub eşitlemesinin yapılamadığını yaz.
-2. Klondaki tasarım dosyalarını canlı siteyle karşılaştır: `index.html`, `js/app.js`, `js/art.js`, `fonts/` altındaki dosyalar ve `media/haber/` altındaki görseller. Her dosyanın `sha256sum` değerini `list_files` sonucundaki sha256 ile karşılaştır. Farklı olan ya da sitede hiç olmayan dosyaları yayın listesine ekle; kaynak yolu her zaman **klondaki** dosya olsun.
-3. `publish_files` ile slug ve 1. adımda alınan base_version'ı vererek (varsayılan patch kipi) tek seferde yayınla:
-   - `js/data.js` ← güncellediğin veri dosyası
+1. `publish_files` ile slug ve 1. bölümde alınan base_version'ı vererek yalnızca şu üç dosyayı yayınla (varsayılan patch kipi):
+   - `js/data.js` ← ChatGPT kontrolünden geçmiş son veri dosyası
    - `media/intro.mp4` ve `media/poster.jpg` ← ürettiğin video
-   - 2. maddede farklı çıkan tasarım dosyaları ← klondan
-   Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve aynı listeyle yeniden yayınla.
-4. Güncel `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını klona kopyala; `git add`, ardından `git commit -m "Günlük güncelleme: GG Ay YYYY"` (commit mesajının sonuna oturumun verdiği ortak yazar satırlarını ekle) ve `git push origin main` ile gönder. Bu üç dosya dışında klonda hiçbir şeyi değiştirme.
+   Sürüm çakışması dönerse `list_files` ile yeni sürümü al ve yalnızca bu üç dosyayla yeniden yayınla.
+2. GitHub kullanılabildiyse `media/intro.mp4` ve `media/poster.jpg` dosyalarını da günün dalına commit edip gönder, ardından çekme isteğini birleştir: `gh api -X PUT repos/Gumrukdoktoru/mevzuathabercisi/pulls/<numara>/merge -f merge_method=squash`. Birleştirme başarısız olursa çekme isteğini açık bırak ve raporda belirt.
 
-**Kesin kural:** `read_file` ile artifact'tan okunan `index.html`, `js/app.js`, `js/art.js` ya da başka bir HTML/JS kopyasını asla yayınlama. `read_file` HTML'in başına okuma için bir sarmalayıcı (`<!doctype html><html><head>…<body>`) ekleyebilir; böyle bir kopya yayınlanırsa site bozulur. Tasarım dosyalarının tek kaynağı GitHub'daki `main` dalıdır. `src/` dosyalarını yayınlama.
+**Kesin kural:** Bu görev yalnızca `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını yayınlar. `index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/` ve `src/` dosyalarını hiçbir koşulda `publish_files` listesine koyma. `read_file` bir HTML dosyasının başına okuma sarmalayıcısı (`<!doctype html><html><head>…<body>`) ekler; böyle bir kopya yayınlanırsa site bozulur. Tasarım değişiklikleri GitHub'da ayrı çekme istekleriyle gelir ve Claude ile yapılan sohbette yayına alınır.
 
-## 7. Raporla
+## 8. Raporla
 
-SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), son 7 günün toplam mevzuat değişikliği sayısı, GitHub'dan canlıya taşınan tasarım değişiklikleri (varsa) ve sitenin bağlantısı. Bir adım başarısız olduysa neyin yapılamadığını açıkça yaz.
+SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), ChatGPT incelemesinin sonucu (kaç bulgu, kaçı düzeltildi) ve çekme isteğinin bağlantısı, son 7 günün toplam mevzuat değişikliği sayısı ve sitenin bağlantısı. Bir adım başarısız olduysa neyin yapılamadığını açıkça yaz.

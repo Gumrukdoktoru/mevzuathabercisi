@@ -1,9 +1,9 @@
-/* mevzuathabercisi.com — içerik verisi (14–20 Kasım 2026 haftası ve arşiv) */
+/* mevzuathabercisi.com — içerik verisi (15–21 Kasım 2026 haftası ve arşiv) */
 window.MH = (function () {
 
 /* Kayan 7 günlük pencere. Günlük güncellemede from/to/label/updated ve DAYS birlikte güncellenir. */
-const WEEK = { from: "2026-11-14", to: "2026-11-20", label: "14–20 Kasım 2026", rgCount: 7, kurumCount: 11, srcCount: 27,
-  updated: "20 Kasım 2026, 07:10", note: "20 Kasım sayısında takip alanlarında düzenleme yok; Ticaret Bakanlığının deniz ve hava ulaştırmacılığı muafiyet genelgesi ile SGK ve SEDDK genelgeleri eklendi." };
+const WEEK = { from: "2026-11-15", to: "2026-11-21", label: "15–21 Kasım 2026", rgCount: 7, kurumCount: 12, srcCount: 32,
+  updated: "21 Kasım 2026, 07:20", note: "21 Kasım sayısında takip alanlarında düzenleme yok; e-ihracat destekleri genelgesindeki değişiklikler, YKTS poliçe onayı yazısı, yeni BTB'ler ve Türk Eximbank-NEXI anlaşması eklendi." };
 
 const CATS = [
   { k: "gumruk",   ad: "Gümrük" },
@@ -19,12 +19,13 @@ const CATS = [
 const IMP = { yuk: "Yükümlülük", usul: "Usul", bilgi: "Bilgi", kolay: "Kolaylık" };
 
 const DAYS = [
-  { d: "2026-11-14", rg: "33430" }, { d: "2026-11-15", rg: "33431" },
+  { d: "2026-11-15", rg: "33431" },
   { d: "2026-11-16", rg: "33432", note: "4 üniversite yönetmeliği yayımlandı; takip alanlarının dışında." },
   { d: "2026-11-17", rg: "33433", note: "2 yönetmelik ve 1 Anayasa Mahkemesi kararı yayımlandı; takip alanlarının dışında." },
   { d: "2026-11-18", rg: "33434" },
   { d: "2026-11-19", rg: "33435", note: "Pilot Lisans Yönetmeliği değişikliği ve 2 üniversite yönetmeliği yayımlandı; takip alanlarının dışında." },
-  { d: "2026-11-20", rg: "33436", note: "Belediye Meclisi Çalışma Yönetmeliği değişikliği, 2 EPDK ve 6 Nükleer Düzenleme Kurulu kararı yayımlandı; takip alanlarının dışında." }
+  { d: "2026-11-20", rg: "33436", note: "Belediye Meclisi Çalışma Yönetmeliği değişikliği, 2 EPDK ve 6 Nükleer Düzenleme Kurulu kararı yayımlandı; takip alanlarının dışında." },
+  { d: "2026-11-21", rg: "33437", note: "4 milletlerarası anlaşma, Suriye'deki bazı üniversite birimlerinin kapatılmasına ilişkin karar, Beşerî Tıbbi Ürünlerin Tanıtım Faaliyetleri Yönetmeliği değişikliği ve vakıf konutlarının tahliyesine ilişkin bir Danıştay kararı yayımlandı; takip alanlarının dışında." }
 ];
 
 /* kind: m = mevzuat değişikliği, g = ekonomi gündemi */
@@ -564,6 +565,44 @@ const ITEMS = [
   dates: [["2026-11-12", "Sertifikalar kabul edilmiyor"], ["2026-11-17", "Birlik sirküleri"]],
   src: [["OAİB sirküleri 2026/469-11312", "https://oaib.org.tr/Uploads/Sirkuler/2026469-11312.pdf"], ["OAİB duyurular", "https://oaib.org.tr/duyurular-ve-bilgilendirme"]] },
 
+{ id: "e-ihracat-genelge-guncelleme", d: "2026-11-18", kind: "m", cat: ["distic"], imp: "usul",
+  kurum: "Ticaret Bakanlığı", tur: "Genelge değişikliği (16.11.2026)", rg: null, yur: "Yayım günü",
+  title: "E-ihracat desteklerinde mağaza eşiği 500 bin dolara indi, yıllık destek sınırı geliyor",
+  spot: "Ticaret Bakanlığı, E-İhracat Desteklerine İlişkin Genelge'yi 16 Kasım tarihli değişiklikle güncelledi. Çevrim içi mağaza desteğinin eşiği düştü; 1 Ocak 2027'den itibaren yıllık destek toplamı e-ihracat değerinin yarısını geçemeyecek.",
+  key: { old: "1.000.000 $", neu: "500.000 $", ks: "Çevrim içi mağaza desteği için önceki yıl e-ticaret ihracatı eşiği" },
+  body: [
+    "Genelge, 5986 sayılı E-İhracat Destekleri Hakkında Karar'a dayanıyor; 16.11.2026 tarihli metin Bakanlığın destek sayfasında yayımlandı ve yayımı tarihinde yürürlüğe giriyor. Çevrim içi mağaza desteği artık önceki yıl gümrük beyannamesi ve basitleştirilmiş gümrük beyannamesiyle yapılan e-ticaret ihracatı toplamı 500.000 doları aşan şirketlere açık; 13 Nisan 2026 tarihli önceki metinde eşik 1.000.000 dolardı.",
+    "Yeni eklenen hükme göre bir yararlanıcıya verilen desteklerin yıllık toplamı, toplam e-ihracat değerinin yarısını geçemeyecek. Bu sınır, 1 Ocak 2027'den itibaren gerçekleştirilen faaliyetlere ilişkin başvurularda uygulanacak.",
+    "Dijital pazaryeri tanıtımı, e-ihracat tanıtımı, sipariş karşılama, yurt dışı pazaryeri entegrasyonu, çevrim içi mağaza ve pazaryeri komisyon gideri desteklerinde, hiçbir ödemeye konu edilmediği tespit edilen destek yılları bir defaya mahsus destek süresinin sonuna eklenebilecek. Ön onay ve ödeme başvurularının elektronik ortamda incelenmesi için Dijital Teşvik Takip Modülü (DTTM) tanımlandı.",
+    "E-İhracat Değerlendirme Beyanı izleyen yılın şubat ayının son iş gününe kadar verilecek. Şirket ortaklarının ve ticaret sicilinde harcama yetkisi bulunan kişilerin kartlarıyla yapılan ödemeler de destek başvurusunda kabul ediliyor."
+  ],
+  tbl: { cap: "Başlıca değişiklikler", h: ["Konu", "Önceki metin", "16 Kasım değişikliği"], r: [
+    ["Çevrim içi mağaza desteği eşiği", "1.000.000 $", "500.000 $"],
+    ["Yıllık toplam destek", "–", "E-ihracat değerinin yarısı (2027 faaliyetlerinden itibaren)"],
+    ["Kullanılmayan destek yılları", "–", "Bir defaya mahsus süre sonuna eklenebilir"],
+    ["E-İhracat Değerlendirme Beyanı", "Nisan ayının ilk iş günü", "Şubat ayının son iş günü"],
+    ["Kartla yapılan ödemeler", "Tüzel kişiye ait kartlar", "Ortak ve harcama yetkilisi kartları da kabul"]] },
+  who: ["E-ihracat yapan şirketler", "Pazaryerleri ve e-ticaret sitesi işletenler", "Destek başvurusu hazırlayan danışmanlar"],
+  todo: ["Önceki yıl e-ticaret ihracatınız 500.000 doları aştıysa çevrim içi mağaza desteğini değerlendirin", "2027 faaliyetleri için alacağınız destek toplamını e-ihracat değerinizin yarısıyla karşılaştırarak planlayın", "E-İhracat Değerlendirme Beyanının yeni son tarihini (şubat ayının son iş günü) takviminize işleyin"],
+  warn: "Yıllık toplam destek sınırı 2026 faaliyetlerine uygulanmıyor; 1 Ocak 2027'den itibaren gerçekleştirilen faaliyetlere ilişkin başvurularda devreye giriyor.",
+  dates: [["2026-11-16", "Genelge değişikliği"], ["2026-11-18", "Bakanlığın genelge sayfasındaki tarih"], ["2027-01-01", "Yıllık destek sınırının başlangıcı"]],
+  src: [["Ticaret Bakanlığı, genelge sayfası", "https://ticaret.gov.tr/destekler/e-ihracat-destekleri/karara-iliskin-genelge"], ["Ticaret Bakanlığı, genelge metni (PDF)", "https://ticaret.gov.tr/data/6447baf113b8761694f892bb/E-%C4%B0HRACAT%20DESTEKLER%C4%B0NE%20%C4%B0L%C4%B0%C5%9EK%C4%B0N%20GENELGE%2016.11.2026.pdf"], ["Apsis Danışmanlık, önceki metinle karşılaştırma", "https://www.apsisdanismanlik.com/blog/e-ihracat-genelgesi-degisiklikleri-16-kasim-2026/"]] },
+
+{ id: "eximbank-nexi-reasurans", d: "2026-11-18", kind: "d", cat: ["finans", "distic"], imp: "bilgi",
+  kurum: "Türk Eximbank", tur: "Reasürans anlaşması", rg: null, yur: "İmza: Berne Union toplantısı, Tokyo",
+  title: "Türk Eximbank ile Japonya'nın NEXI kurumu arasında reasürans anlaşması",
+  spot: "Türk Eximbank, Japonya'nın resmî ihracat destek kuruluşlarından NEXI ile reasürans anlaşması imzaladı. İki kurum, Türk ve Japon firmalarının üçüncü ülkelerdeki ortak projelerine tek başvuru noktasından destek verebilecek.",
+  key: { kv: "16 kurum", ks: "Türk Eximbank'ın reasürans anlaşması bulunan yabancı kuruluş sayısı" },
+  body: [
+    "Anlaşma, 16–19 Kasım'da Tokyo'da düzenlenen Berne Union Yıllık Toplantısı sırasında imzalandı ve 18 Kasım'da duyuruldu. Dayanağı, iki kurum arasında 2017'de imzalanan ve üçüncü ülkelerdeki ortak projelerde reasürans dahil iş birliğini öngören mutabakat zaptı.",
+    "Kurulan mekanizmayla Türk ve Japon ihracatçıların üçüncü ülkelerde birlikte yürüttüğü projeler, tek bir başvuru noktası üzerinden iki kurumun ortak desteğinden yararlanabilecek.",
+    "Bu anlaşmayla Türk Eximbank'ın reasürans anlaşması bulunan yabancı kuruluş sayısı 16'ya çıktı. Haberlerde destek tutarı, şartlar ve süreye ilişkin bilgi yer almıyor."
+  ],
+  who: ["Üçüncü ülkelerde proje üstlenen müteahhit ve ihracatçılar", "Japon firmalarıyla ortak proje yürüten şirketler", "İhracat kredi sigortası kullanan firmalar"],
+  todo: ["Japon ortaklı üçüncü ülke projelerinizde sigorta ve finansman desteği için Türk Eximbank ile görüşün"],
+  dates: [["2026-11-18", "Duyuru"]],
+  src: [["Bloomberg HT, 18.11.2026", "https://www.bloomberght.com/turk-eximbank-ve-nexi-den-reasurans-anlasmasi-3795003"], ["Alomaliye, 19.11.2026", "https://www.alomaliye.com/2026/11/19/turk-eximbank-ve-nexi-reasurans-anlasmasi-imzaladi/"], ["Foreks, 18.11.2026", "https://www.foreks.com/haber/detay/6afd93f25642be689ea21d19/FRKS/tr/yenileme-turk-eximbank-ve-nexi-arasinda-reasurans-anlasmasi-imzalandi-18-11-26/"]] },
+
 /* ───────── 19 KASIM ───────── */
 { id: "deniz-hava-muafiyet-genelgesi", d: "2026-11-19", kind: "m", cat: ["gumruk", "lojistik"], imp: "usul",
   kurum: "Ticaret Bakanlığı", tur: "Genelge 2026/12", rg: null, yur: "19 Kasım 2026 (duyuru)",
@@ -587,6 +626,41 @@ const ITEMS = [
   warn: "Muafiyetle ithal edilen eşyanın muafiyet hakkı olmayanlara devri, satışı veya kiralanması gümrük idaresinin iznine bağlı; bu durumda doğması gereken gümrük vergileri tahsil ediliyor.",
   dates: [["2026-11-19", "Bakanlık açıklaması"]],
   src: [["Takvim, 19.11.2026", "https://www.takvim.com.tr/ekonomi/2026/11/19/ticaret-bakanligi-deniz-ve-hava-ulasiminda-gumruk-muafiyetini-yeniden-duzenledi"], ["Ticaret Bakanlığı, genelge metni (PDF)", "https://ticaret.gov.tr/data/695e56a213b8762ee8546909/2026-12%20Say%C4%B1l%C4%B1%20Genelge-Deniz%20ve%20Hava%20Ula%C5%9Ft%C4%B1rmac%C4%B1l%C4%B1%C4%9F%C4%B1nda%20Kullan%C4%B1lan%20E%C5%9Fya.pdf"], ["Aeroportist", "https://www.aeroportist.com/deniz-ve-hava-ulastirmasinda-gumruk-muafiyeti-yeniden-duzenlendi-2026-12-sayili-genelge/"], ["ANKA, 19.11.2026", "https://ankahaber.net/haber/ticaret-bakanligi-deniz-ve-hava-ulastirmasinda-gumruk-muafiyeti-uygulamalarini-yeniden-duzenledi-bcb81774"], ["mevzuat.net güncellik", "https://www.mevzuat.net/Guncellik.aspx"]] },
+
+/* ───────── 20 KASIM ───────── */
+{ id: "ykts-abonman-police-onay", d: "2026-11-20", kind: "m", cat: ["gumruk"], imp: "kolay",
+  kurum: "Gümrükler Genel Müdürlüğü", tur: "Yazı 128777556", rg: null, yur: "Yazı tarihi: 20 Kasım 2026",
+  title: "YKTS'de abonmana bağlı poliçeler memur onayı beklemeden onaylanacak",
+  spot: "Gümrükler Genel Müdürlüğü, Yükümlü Kayıt ve Takip Sistemi'nde nakliyat abonman sözleşmelerine bağlı poliçe kayıtlarının memur onayı olmadan doğrudan 'Onaylanmış' statüsüne geçmesi için teknik düzenleme yaptı.",
+  key: { kv: "Onaylanmış", ks: "Abonmana bağlı poliçe kayıtları memur onayı beklemeden bu statüye geçiyor" },
+  body: [
+    "20 Kasım tarihli ve 128777556 sayılı yazıya göre nakliyat abonman sözleşmelerinin YKTS'deki kaydı memur onayına tabi olmaya devam ediyor. Bu sözleşmelere bağlı poliçe kayıtları ise yapılan teknik düzenlemeyle memur onayı olmaksızın doğrudan 'Onaylanmış' statüsüne geçiyor.",
+    "Yazı aynı gün gümrük müşavirleri derneklerince de üyelere duyuruldu. Bir önceki YKTS yazısıyla aynı poliçe kayıtlarında gönderici, alıcı ve brüt ağırlık veya miktar alanları zorunlu hâle getirilmişti."
+  ],
+  who: ["Gümrük müşavirleri", "Sigorta şirketleri ve acenteleri", "İthalatçı ve ihracatçılar"],
+  todo: ["Abonman sözleşmesi kayıtlarının hâlâ memur onayına tabi olduğunu iş planınızda dikkate alın", "Poliçe kayıtlarında gönderici, alıcı ve brüt ağırlık veya miktar alanlarını eksiksiz doldurun"],
+  warn: "Onay beklemeden geçiş yalnızca abonmana bağlı poliçe kayıtları için geçerli; nakliyat abonman sözleşmesinin kendisi memur onayına tabi olmaya devam ediyor.",
+  dates: [["2026-11-20", "Yazı tarihi"]],
+  src: [["mevzuat.net, GGM yazısı", "https://www.mevzuat.net/gumruk/tyazilar/2026/ty128777556.aspx"], ["mevzuat.net güncellik", "https://www.mevzuat.net/Guncellik.aspx"], ["İGMD duyurusu, 20.11.2026", "https://www.igmd.org.tr/ykts-nakliyat-abonman-police-kayit-islemleri-hakkinda_haberi"]] },
+
+{ id: "btb-guncelleme-20-kasim", d: "2026-11-20", kind: "d", cat: ["gumruk"], imp: "bilgi",
+  kurum: "Gümrükler Genel Müdürlüğü", tur: "BTB listesi", rg: null, yur: "20 Kasım 2026",
+  title: "BTB listesine bir yeni karar eklendi, süresi dolan üç karar çıkarıldı",
+  spot: "Bağlayıcı Tarife Bilgisi listesine ağır vasıtalarda kullanılan hidrodinamik retarder ünitesi için yeni bir karar eklendi. Zırhlı personel taşıyıcılara ve bir enjektör filtresine ait üç BTB, altı yıllık sürenin dolmasıyla geçerliliğini yitirdi.",
+  key: { kv: "8479.89.97.90.19", ks: "Hidrodinamik retarder ünitesi için verilen yeni BTB'nin GTİP'i" },
+  body: [
+    "20 Kasım'da güncellenen listeye göre TR350000260071 numaralı yeni BTB, ağır vasıtalarda şanzımana monte edilerek frenleme torku üreten VOITH VR115CT modelli hidrodinamik retarder ünitesini 8479.89.97.90.19 GTİP'inde sınıflandırıyor. Karar 19 Kasım 2026'dan itibaren geçerli.",
+    "Pick-up ve SUV görünümlü TULGA 4x4 zırhlı personel taşıyıcılara ait iki BTB (8710.00.00.00.11) ile benzinli araç motorlarında enjektör parçası olarak kullanılan, yakıttaki partikülleri filtreleyen eşyaya ait BTB (8421.23.00.00.00), verilişlerinden itibaren altı yıl dolduğu için listeden çıkarıldı."
+  ],
+  tbl: { cap: "Değişen BTB'ler", h: ["BTB no", "Eşya", "GTİP", "Durum"], r: [
+    ["TR350000260071", "Hidrodinamik retarder ünitesi (VOITH VR115CT)", "8479.89.97.90.19", "Yeni; 19.11.2026'dan itibaren"],
+    ["TR350000200071", "TULGA 4x4 zırhlı personel taşıyıcı, pick-up görünümlü", "8710.00.00.00.11", "Süresi doldu (18.11.2026)"],
+    ["TR350000200072", "TULGA 4x4 zırhlı personel taşıyıcı, SUV görünümlü", "8710.00.00.00.11", "Süresi doldu (18.11.2026)"],
+    ["TR160000200048", "Enjektörde kullanılan yakıt partikül filtresi", "8421.23.00.00.00", "Süresi doldu (17.11.2026)"]] },
+  who: ["Gümrük müşavirleri", "Otomotiv ve yedek parça ithalatçıları", "Tarife ve sınıflandırma birimleri"],
+  todo: ["Benzer eşyanın sınıflandırmasında yeni BTB'yi referans olarak inceleyin"],
+  dates: [["2026-11-19", "Yeni BTB'nin başlangıcı"], ["2026-11-20", "Liste güncellemesi"]],
+  src: [["mevzuat.net, BTB listesi", "https://www.mevzuat.net/BTB.aspx"]] },
 
 /* ───────── ARŞİV: 1–10 KASIM VE EKİM ───────── */
 { id: "ncts-ihracat-kapatma", d: "2026-11-10", kind: "m", cat: ["gumruk", "lojistik"], imp: "kolay",
@@ -791,9 +865,9 @@ const ITEMS = [
 ];
 
 const LEAD = "ihale-borc-siniri";
-const TOP = ["deniz-hava-muafiyet-genelgesi", "iplik-damping-surdurme", "yabanci-yatirimci-ikamet", "adil-katilim-tmsf"];
+const TOP = ["e-ihracat-genelge-guncelleme", "deniz-hava-muafiyet-genelgesi", "iplik-damping-surdurme", "yabanci-yatirimci-ikamet"];
 const GUMRUK_LEAD = "ab-soguk-celik-antidamping";
-const ARCHIVE_PICKS = ["vuk-597-borclu-listesi", "taksi-mali-cihaz", "butunlesik-sigorta", "dir-maden-metal-genelgesi"];
+const ARCHIVE_PICKS = ["adil-gecis-genelgesi", "vuk-597-borclu-listesi", "taksi-mali-cihaz", "dir-maden-metal-genelgesi"];
 
 const TILES = [
   { id: "ihale-borc-siniri", c: "vergi", old: "5.000", v: "50.000 TL", l: "Kamu ihalesinde vergi ve SGK borç sınırı" },
@@ -812,12 +886,13 @@ const DATES = [
   { d: "2026-12-07", t: "Birleşik Krallık SKDM bilgilendirme toplantıları", s: "Ankara 7 Aralık, İstanbul 8 Aralık", c: "distic", id: "uk-skdm-seminer" },
   { d: "2026-12-25", t: "Taksi mali cihaza geçiş son günü", s: "591 Sıra No.lu VUK Genel Tebliği", c: "vergi", id: "taksi-mali-cihaz" },
   { d: "2026-12-31", t: "Konaklama vergisinde %1 oranı sona eriyor", s: "11263 sayılı Cumhurbaşkanı Kararı", c: "vergi", u: "https://www.alomaliye.com/2026/06/19/konaklama-vergisi-rehberi-2026/" },
+  { d: "2027-01-01", t: "E-ihracat desteklerinde yıllık toplam sınır", s: "Destek toplamı e-ihracat değerinin yarısını geçemeyecek", c: "distic", id: "e-ihracat-genelge-guncelleme" },
   { d: "2027-01-01", t: "Ukrayna STA'da gümrük vergisi indirimleri başlıyor", s: "Ürün listelerindeki indirimler", c: "gumruk", id: "ukrayna-sta-yururluk" }
 ];
 
 const MARKET = {
-  asof: "19 Kasım 18:30 itibarıyla, kaynak Bloomberg HT",
-  items: [["USD/TRY", "50,47"], ["EUR/TRY", "55,63"], ["Gram altın", "6.008,80 TL"], ["Ons altın", "3.718 $"], ["BIST 100", "11.400,09", "19 Kasım kapanışı"]]
+  asof: "20 Kasım haftalık kapanışı, kaynak AA verileriyle GZT ve CNBC-e",
+  items: [["USD/TRY", "50,58"], ["EUR/TRY", "55,66"], ["Gram altın", "5.812 TL", "Kapalıçarşı"], ["BIST 100", "11.131,32", "20 Kasım kapanışı"]]
 };
 
 const SOURCES = [
