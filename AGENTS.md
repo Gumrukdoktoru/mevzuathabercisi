@@ -28,7 +28,7 @@ Bu dosya, depoda çalışan her ajanın uyacağı kuralları anlatır. Önce `RE
 - Alan renkleri sabittir (`--c-gumruk`, `--c-distic`, `--c-vergi`, `--c-muhasebe`, `--c-finans`, `--c-lojistik`, `--c-depolama`, `--c-denetim`); bir alan her yerde aynı renkle görünür.
 - Düzen: ekonomi gazetesi. Büyük manşet ve yanında "Son eklenenler" akışı, altında alan bölümleri; bölüm başlıkları alan renginde üst çizgiyle ayrılır.
 - Yazı tipleri: başlıklar ve haber metni Newsreader (serif), arayüz ve rakamlar IBM Plex Sans. Dosyalar `fonts/` klasöründe (`nr-*`, `px-*`); `sg-*` dosyaları yalnızca giriş videosu için.
-- Haber görselleri `js/art.js` ile koda gömülü çizim sahneleridir (her alan için bir sahne; haberin id'sine göre farklı kadraj). Gerçek fotoğraf eklenecekse lisanslı ya da üretilmiş görseller `media/` altına konur ve hangi haberle eşleştiği açıkça belirtilir.
+- Haber görselleri yapay zekâ ile üretilmiş temsili fotoğraflardır (`media/haber/`); fotoğrafı olmayan alanlarda `js/art.js` çizim sahneleri kullanılır. Yeni görsel lisanslı ya da üretilmiş olmalı ve hangi haberle ya da alanla eşleştiği belirtilmelidir.
 - Sekiz alanın renk şeridi sayfanın en üstünde ve alt bilgide durur.
 - Ana sayfanın imzası "Bugünün Resmî Gazetesi" panelidir (günün sayısı ve takip alanına giren kalemler, Gazete'nin içindekiler düzeninde). Logo § işaretli mühürdür.
 - Şablon izlerinden kaçının: bağlantı metinlerine ok (→) eklemeyin, bilgileri orta nokta (·) ile birleştirmeyin, başlıklara büyük harfli etiket koymayın.
@@ -55,7 +55,7 @@ Her sabahki otomatik güncelleme `gunluk/YYYY-AA-GG` dalında "Günlük güncell
 
 Yayına alma: tasarım değişiklikleri (`index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/`) ayrı bir çekme isteğiyle gelir; Claude dener, `main` dalına alır ve canlı siteye taşır.
 
-Haber fotoğrafları: `media/haber/` altındaki görseller `js/app.js` içindeki `photos` eşlemesiyle haberlere bağlanır; eşlemesi olmayan haberlerde `js/art.js` çizimi kullanılır.
+Haber fotoğrafları: `media/haber/` altındaki görseller `js/app.js` içindeki `photos` eşlemesiyle haberlere bağlanır. Eşlemesi olmayan haberler, alanlarının `media/haber/alan/<alan>-<n>.webp` havuzundan tarih sırasıyla görsel alır (kaç görsel olduğu `POOL` içinde yazılı). Havuzu olmayan alanlarda `js/art.js` çizimi kullanılır. Havuza görsel eklerken dosyayı 1280x720 WebP olarak koyun ve `POOL` sayısını artırın; görselde okunur yazı, marka ya da logo bulunmamalı.
 
 
 ## Code Review Rules

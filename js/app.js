@@ -55,10 +55,11 @@ const kc = (x, k) => (k && x.cat.indexOf(k) >= 0) ? k : c0(x);
 const badge = (x, sm) => '<span class="badge' + (sm ? " sm" : "") + '"><b>' + figTxt(x.key) + "</b><small>" + esc(x.key.ks) + "</small></span>";
 const kick = (x, k) => { k = kc(x, k); return '<a class="kick" style="--c:' + cv(k) + '" href="#kategori-' + k + '">' + esc(CAT[k].ad) + "</a>" + (isNew(x) ? '<span class="new">Yeni</span>' : ""); };
 const impP = x => x.kind === "g" ? '<span class="gd">Ekonomi gündemi</span>' : '<span class="imp imp-' + x.imp + '">' + M.IMP[x.imp] + "</span>";
-/* Habere özel temsili görseller. Yeni haberlerde alan çizimi kullanılır. */
+/* Habere özel temsili görseller. Burada adı geçmeyen haberlere alanın
+   fotoğraf havuzundan sırayla görsel verilir (media/haber/alan/<alan>-<n>.webp). */
 const photos = {
-  "ihale-borc-siniri": "kamu-binasi",
-  "sgk-ihale-borc-genelgesi": "kamu-binasi",
+  "ihale-borc-siniri": "kamu-1",
+  "sgk-ihale-borc-genelgesi": "kamu-2",
   "deniz-hava-muafiyet-genelgesi": "konteyner-limani",
   "iplik-damping-surdurme": "iplik",
   "dir-kumas-kirpinti-gozetim": "iplik",
@@ -72,8 +73,17 @@ const photos = {
   "bm-malvarligi-listesi": "mali-kayit",
   "kgk-surdurulebilirlik-tfrs18": "mali-kayit"
 };
+/* Alan fotoğraf havuzu: her alanda kaç görsel var. Aynı alandaki haberler
+   tarih sırasıyla havuzu dolaşır; böylece yan yana iki haber aynı görseli almaz. */
+const POOL = { gumruk: 3, distic: 2, vergi: 3, muhasebe: 3, finans: 3, lojistik: 3, depolama: 3, denetim: 2 };
+const poolPhoto = {};
+Object.keys(POOL).forEach(k => {
+  let i = 0;
+  ALL.forEach(x => { if (x.cat.indexOf(k) >= 0 && !photos[x.id]) poolPhoto[k + "|" + x.id] = "alan/" + k + "-" + (i++ % POOL[k] + 1); });
+});
+const photoOf = (x, k) => photos[x.id] || poolPhoto[k + "|" + x.id] || poolPhoto[c0(x) + "|" + x.id];
 function visual(x, k, priority = false) {
-  const photo = photos[x.id];
+  const photo = photoOf(x, k);
   if (!photo) return ART.scene(k, x.id, { label: CAT[k].ad + " için temsili çizim" });
   return '<img class="news-photo" src="media/haber/' + photo + '.webp" alt="" ' +
     (priority ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">';
@@ -287,7 +297,7 @@ function pageArticle(id) {
         "<h1>" + esc(x.title) + '</h1><p class="spot">' + esc(x.spot) + "</p></header>" +
       '<div class="ameta"><span>Yayım <b>' + fD(x.d) + "</b></span><span>Kurum <b>" + esc(x.kurum) + "</b></span>" +
         '<div class="article-actions"><button type="button" id="sources-jump">Kaynakları gör</button><button type="button" id="copy">' + ic("link") + "Bağlantıyı kopyala</button></div></div>" +
-      '<figure class="hero-img"><span class="img">' + visual(x, k, true) + badge(x) + "</span><figcaption>" + (photos[x.id] ? "Yapay zekâ ile oluşturulmuş temsili görsel." : "Temsili çizim.") + "</figcaption></figure>" +
+      '<figure class="hero-img"><span class="img">' + visual(x, k, true) + badge(x) + "</span><figcaption>" + (photoOf(x, k) ? "Yapay zekâ ile oluşturulmuş temsili görsel." : "Temsili çizim.") + "</figcaption></figure>" +
       '<div class="prose">' +
         "<h2>" + (x.kind === "g" ? "Ayrıntılar" : "Ne değişti?") + "</h2>" + x.body.map(p => "<p>" + esc(p) + "</p>").join("") +
         (x.chart ? '<div style="font-family:var(--sans);margin:10px 0 24px"><b style="font-size:15px">' + esc(x.chart.cap || "") + "</b>" + chartHTML(x.chart) + "</div>" : "") + tbl +
