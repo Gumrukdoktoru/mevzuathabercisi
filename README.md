@@ -48,7 +48,7 @@ Gerekenler: Node.js, Python 3, `pip install playwright`, Chrome ya da `playwrigh
 
 ## Günlük güncelleme
 
-Her sabah 06:53'te (İstanbul) çalışan zamanlanmış görev Resmî Gazete'yi ve kurum duyurularını tarar, `js/data.js` dosyasını günceller, videoyu yeniden üretir ve siteyi yayınlar. Ortak kontrolü etkinleştirmek için Claude görevinin başlangıç talimatına her çalışmada `main` dalındaki `araclar/GUNLUK-GUNCELLEME.md` dosyasını okumasını ekleyin. Görevin çalıştığı ortamda yetkili Codex CLI ve canlı web araması gerekir. Claude'un hazırladığı taslak ve önceki canlı veri kopyası `araclar/ortak-kontrol.js` ile karşılaştırılır. Yayıma geçen dosyanın SHA-256 değeri günlük kontrol çıktısında yer alır.
+Her sabah 06.53’te (İstanbul) Claude haber taslağını hazırlar. Codex günlük GitHub çekme isteğinde haberleri kaynaklarıyla karşılaştırır. GitHub incelemesi tamamlanamazsa, yetkilendirilmiş Codex CLI ve canlı web araması bulunan bir görev ortamında `araclar/ortak-kontrol.js` ikinci inceleme yolu olarak kullanılabilir. Doğrulama tamamlanınca Claude aynı veriden videoyu üretir ve bülteni yayımlar. Claude görevinin her çalışmada `main` dalındaki `araclar/GUNLUK-GUNCELLEME.md` talimatını okuması gerekir.
 
 ## Birlikte çalışma
 

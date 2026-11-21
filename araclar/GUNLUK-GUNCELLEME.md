@@ -9,8 +9,6 @@ Bu dosya, her sabah çalışan zamanlanmış görevin izleyeceği adımları anl
 
 ## 1. Dosyaları al
 
-06.53 İstanbul görevinde Claude haberleri hazırlar, Codex yayımdan önce kaynakları bağımsız olarak kontrol eder. Tek yayıncı Claude'dur. Görevin başında GitHub'daki `Gumrukdoktoru/mevzuathabercisi` deposunu `mcp__claude-code-remote__add_repo` ile al ve görev boyunca aynı klonu kullan. Bu talimatı ve `araclar/ortak-kontrol.js` dosyasını `main` dalından oku. Yayın ortamında Node.js 22 veya üstü, `codex exec --output-schema` ve canlı web aramasını destekleyen yetkilendirilmiş Codex CLI gerekir. `codex login status` ile bu ortamın oturumunu kontrol et.
-
 1. ToolSearch ile `mcp__claude-artifacts__list_files`, `mcp__claude-artifacts__read_file` ve `mcp__claude-artifacts__publish_files` araçlarını tek çağrıda yükle.
 2. `list_files` ile artifact'ın güncel sürümünü (base_version olarak kullanılacak) not et.
 3. `read_file` aracını `paths` ile bir kez çağır (tek çağrıda en çok 32 dosya, toplam 4 MiB):
@@ -29,7 +27,7 @@ is/video/fonts/sg-*.woff2   (8 yazı tipi dosyası)
 is/site/media/              (video çıktısı buraya yazılır)
 ```
 
-Değişikliğe başlamadan canlıdan okunan `js/data.js` dosyasının bir kopyasını `is/onceki-data.js` olarak sakla. Yeniden denemede taban dosya aynı canlı sürüme ait olmalı.
+Düzenlemeye başlamadan canlı sürümden okunan veriyi `is/onceki-data.js` olarak ayrıca sakla. Bu dosya, aynı sürüme karşı yapılacak sonraki denemelerde de başlangıç kopyasıdır.
 
 ## 2. Bugünü tara
 
@@ -53,7 +51,7 @@ Takip alanları: gümrük, dış ticaret, vergi, muhasebe/SGK/İK, finansman, lo
 `window.MH` içindeki yapılar:
 
 - `WEEK`: `from` = bugün − 6 gün, `to` = bugün, `label` = "12–18 Kasım 2026" biçimi (aylar farklıysa "28 Kasım – 4 Aralık 2026"), `rgCount` = DAYS içindeki Resmî Gazete sayısı (normalde 7), `kurumCount` ve `srcCount` = son 7 günde haberi çıkan kurum ve kullanılan kaynak sayısı (yaklaşık olabilir), `updated` = "18 Kasım 2026, 07:10" biçiminde İstanbul saati, `note` = isteğe bağlı tek cümle (boş bırakılabilir).
-- `DAYS`: her zaman tam 7 gün. En eski günü çıkar, bugünü `{ d: "YYYY-AA-GG", rg: "33435" }` olarak sona ekle. Sayıyı günün yayımlanmış nüshasından doğrula. Mükerrer sayı varsa `rg: "33435 ve mükerrer"` yaz. Alan dışı kalemler varsa `note: "3 üniversite yönetmeliği yayımlandı; takip alanlarının dışında."` gibi bir not ekle.
+- `DAYS`: her zaman tam 7 gün. En eski günü çıkar, bugünü `{ d: "YYYY-AA-GG", rg: "33435" }` olarak sona ekle. Sayıyı yayımlanan nüshadan doğrula. Mükerrer sayı varsa `rg: "33435 ve mükerrer"` yaz. Alan dışı kalemler varsa `note: "3 üniversite yönetmeliği yayımlandı; takip alanlarının dışında."` gibi bir not ekle.
 - `ITEMS`: yeni haberleri dosyada ilgili gün başlığının altına ekle (`/* ───────── 19 KASIM ───────── */` gibi). Eski haberleri silme; pencereden çıkanlar sitede "Önceki haftalardan" ve arşivde görünmeye devam eder. data.js 1 MB'ı geçerse 90 günden eski ve hiçbir listede kullanılmayan haberleri silebilirsin.
 - `LEAD`: son 7 günün en geniş etkili değişikliği. `GUMRUK_LEAD`: son 7 günün en önemli gümrük ya da dış ticaret haberi. `TOP`: son 7 günden 4 haber (LEAD hariç). `ARCHIVE_PICKS`: pencereden yeni çıkmış, hâlâ gündemde olan 4 haber.
 - `TILES`: tam 4 kart, son 7 günün en çarpıcı rakamları: `{ id, c, v, l, old? }`. `v` kısa olsun (en çok 12 karakter idealdir, ör. "50.000 TL", "%3 – %7,8", "12 ay", "0,80 $/kg"). Eski değer varsa `old: "5.000"`. `l` en çok 60 karakter.
@@ -88,19 +86,30 @@ Yazım kuralları:
 - Aynı düzenlemeyi iki kez ekleme: id ve başlıklara bakarak mevcut haberleri kontrol et.
 - Bugün takip alanlarında hiçbir değişiklik yoksa yine de DAYS ve WEEK'i kaydır, `updated`'ı yenile, günün notunu yaz.
 
-## 4. Codex ile yayından önce doğrula
+## 4. Denetle
 
-GitHub klonunun kökünde, aşağıdaki yollarda görev klasörünün gerçek konumunu kullan:
-
-```sh
-node araclar/ortak-kontrol.js /tam/yol/is/onceki-data.js /tam/yol/is/site/js/data.js
+```
+cd is/video
+node kontrol.js ../site/js/data.js        # HATA satırı varsa düzelt, tekrar çalıştır
 ```
 
-Araç önce veri yapısını denetler. Ardından Codex günün bültenini, bugüne ait haberleri, eklenen veya değişen kayıtları ve kaldırılan haberleri kaynaklarıyla inceler. Yeni haber bulunmayan günde de günün sayısı ve kurum duyuruları kontrol edilir.
+## 5. ChatGPT ile birlikte kontrol et (GitHub çekme isteği)
 
-Komut sıfırla sonlanırsa raporu ve onaylanan dosyanın SHA-256 değerini sakla. Codex bir düzeltme isterse Claude kaynak metne dönüp taslağı düzeltir ve aynı canlı kopyaya karşı komutu yeniden çalıştırır. Kaynak veya Codex erişimi yoksa ya da anlaşmazlık sürüyorsa o günün taslağını beklet ve sebebini bildir. Yalnızca doğrulamadan geçen dosyadan video üret.
+Her günün haberleri yayından önce ChatGPT'nin (Codex) incelemesinden geçer. Codex, GitHub'daki çekme isteğini (pull request) okur ve `AGENTS.md` içindeki "Code Review Rules" bölümüne göre her haberi kaynaklarıyla karşılaştırır.
 
-## 5. Videoyu üret
+1. Önce bir önceki günün çekme isteğindeki geç gelen bulguları incele. Geçerli düzeltmeleri bugünkü taslağa ekle.
+2. `mcp__claude-code-remote__add_repo` ile `Gumrukdoktoru/mevzuathabercisi` deposunu yazma erişimiyle al. Günün `gunluk/YYYY-AA-GG` dalı varsa onu kullan, yoksa `main` üzerinden aç. Denetlenmiş taslağı klondaki `js/data.js` yoluna kopyala, değişikliği commit edip gönder. Günün dalı için açık çekme isteğini kullan veya `main` hedefli, “Günlük güncelleme: GG Ay YYYY” başlıklı bir istek aç. Açıklamada değişen haberlerin kimliklerini, başlıklarını ve kaynak bağlantılarını ver.
+3. Çekme isteğinde `@codex review` ile inceleme iste. İsteğe taslak commit'ini ekle. Codex'ten her yeni ve değişen haberi kaynak metniyle karşılaştırmasını, günün Resmî Gazete sayısını ve varsa “ilgili haber yok” sonucunu da doğrulamasını iste. Hangi kaynakları okuyabildiğini ve açık kalan konuları Türkçe belirtmesini iste.
+4. En çok 25 dakika boyunca iki dakikada bir çekme isteğinin incelemelerini ve yorumlarını kontrol et. Depoya kurulu Codex uygulamasından gelen, bu taslağa ait tamamlanmış incelemeyi kullan. Başlama tepkisi ve süre dolması yayın onayı sayılmaz. Her bulguyu kaynağından değerlendir, sonucu çekme isteğine yaz. Veri değişirse yapısal denetimi çalıştır, günün dalına gönder ve değişen taslak için yeniden inceleme iste.
+5. GitHub incelemesi gelmezse veya kaynaklara erişilemezse, görev ortamında yetkilendirilmiş Codex CLI ve canlı web araması varsa klonun kökünden aşağıdaki yedek denetimi çalıştır. Dosya yollarını görev klasörüne göre düzenle. Komut günün bülteni ve değişen kayıtlar için bağımsız bir rapor üretir. Başarılı çalışmada verdiği SHA-256 değerini sakla.
+
+   ```sh
+   node araclar/ortak-kontrol.js /tam/yol/is/onceki-data.js /tam/yol/is/site/js/data.js
+   ```
+
+6. Kaynak kontrolü tamamlanmış ve açık bulgusu kalmamış sürümü kullan. GitHub incelemesinde onaylanan commit'teki `js/data.js` içeriğinin SHA-256 değerini, CLI yolunda ise rapordaki değeri yayın dosyasıyla karşılaştır. Değerler eşleşince videoyu o dosyadan üret. Kontrol tamamlanamıyorsa, kaynaklar çelişiyorsa veya son veri tekrar inceleme bekliyorsa taslağı beklet. Sebebini günlük rapora yaz; yayın ve birleştirme adımlarına geçme.
+
+## 6. Videoyu üret
 
 ```
 cd is/video
@@ -111,21 +120,16 @@ python3 render.py stills vdata.json 5.6 9.8          # still_05.60.png ve still_
 
 Kareleri Read ile aç ve bak: sayı, gün çubukları ve dört kart taşmadan görünmeli. Gerekiyorsa TILES metinlerini kısaltıp yeniden üret. Chrome (/usr/bin/google-chrome), python playwright ve ffmpeg ortamda hazırdır.
 
-## 6. GitHub'daki tasarımı al ve yayınla
+## 7. Yayınla ve birleştir
 
-Sitenin kodu GitHub'da da durur: https://github.com/Gumrukdoktoru/mevzuathabercisi . ChatGPT (Codex) ve Claude tasarım değişikliklerini orada yapar; `main` dalına alınan değişiklikler her sabah bu adımda canlı siteye taşınır.
-
-1. Başlangıçta alınan klonu kullan. `sha256sum` ile yayınlayacağın veri dosyasını 4. adımda onaylanan özetle karşılaştır. Değişmişse denetimi ve video üretimini tekrarla.
-2. Klondaki tasarım dosyalarını canlı siteyle karşılaştır: `index.html`, `js/app.js`, `js/art.js`, `fonts/` altındaki dosyalar ve `media/haber/` altındaki görseller. Her dosyanın `sha256sum` değerini `list_files` sonucundaki sha256 ile karşılaştır. Farklı olan ya da sitede hiç olmayan dosyaları yayın listesine ekle; kaynak yolu her zaman **klondaki** dosya olsun.
-3. `publish_files` ile slug ve 1. adımda alınan base_version'ı vererek (varsayılan patch kipi) tek seferde yayınla:
-   - `js/data.js` ← güncellediğin veri dosyası
+1. `publish_files` ile slug ve 1. bölümde alınan base_version'ı vererek yalnızca şu üç dosyayı yayınla (varsayılan patch kipi):
+   - `js/data.js` ← ChatGPT kontrolünden geçmiş son veri dosyası
    - `media/intro.mp4` ve `media/poster.jpg` ← ürettiğin video
-   - 2. maddede farklı çıkan tasarım dosyaları ← klondan
-   Sürüm çakışmasında yeni canlı veriyi al, o sürümle haberleri uzlaştır ve 4. adımdan itibaren yeniden çalıştır.
-4. Güncel `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını klona kopyala; `git add`, ardından `git commit -m "Günlük güncelleme: GG Ay YYYY"` (commit mesajının sonuna oturumun verdiği ortak yazar satırlarını ekle) ve `git push origin main` ile gönder. Bu üç dosya dışında klonda hiçbir şeyi değiştirme.
+   Sürüm çakışırsa yeni canlı veriyi al ve taslakla karşılaştır. Veri değişmişse yeni canlı kopyayı temel alarak taslağı uzlaştır, kaynak denetimini tekrarla ve videoyu doğrulanan dosyadan üret. Yalnızca tasarım değişmişse yeni sürümü temel alarak doğrulanan üç dosyayı yeniden gönder.
+2. GitHub kullanılabildiyse `media/intro.mp4` ve `media/poster.jpg` dosyalarını da günün dalına commit edip gönder, ardından çekme isteğini birleştir: `gh api -X PUT repos/Gumrukdoktoru/mevzuathabercisi/pulls/<numara>/merge -f merge_method=squash`. Birleştirme başarısız olursa çekme isteğini açık bırak ve raporda belirt.
 
-**Kesin kural:** `read_file` ile artifact'tan okunan `index.html`, `js/app.js`, `js/art.js` ya da başka bir HTML/JS kopyasını asla yayınlama. `read_file` HTML'in başına okuma için bir sarmalayıcı (`<!doctype html><html><head>…<body>`) ekleyebilir; böyle bir kopya yayınlanırsa site bozulur. Tasarım dosyalarının tek kaynağı GitHub'daki `main` dalıdır. `src/` dosyalarını yayınlama.
+**Kesin kural:** Bu görev yalnızca `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını yayınlar. `index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/` ve `src/` dosyalarını hiçbir koşulda `publish_files` listesine koyma. `read_file` bir HTML dosyasının başına okuma sarmalayıcısı (`<!doctype html><html><head>…<body>`) ekler; böyle bir kopya yayınlanırsa site bozulur. Tasarım değişiklikleri GitHub'da ayrı çekme istekleriyle gelir ve Claude ile yapılan sohbette yayına alınır.
 
-## 7. Raporla
+## 8. Raporla
 
-SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), son 7 günün toplam mevzuat değişikliği sayısı, GitHub'dan canlıya taşınan tasarım değişiklikleri (varsa) ve sitenin bağlantısı. Codex’in kontrol ettiği konuları, kaynakları, açık kalan maddeleri ve yayının gerçekleşip gerçekleşmediğini belirt.
+SendUserMessage ile kullanıcıya Türkçe, kısa bir özet gönder: bugünün Resmî Gazete sayısı, eklenen haberler (başlık ve alan), ChatGPT incelemesinin sonucu (kaç bulgu, kaçı düzeltildi) ve çekme isteğinin bağlantısı, son 7 günün toplam mevzuat değişikliği sayısı ve sitenin bağlantısı. Kullanılan inceleme yolunu (GitHub veya CLI), açık konuları ve bültenin yayına alınıp alınmadığını belirt.

@@ -51,8 +51,32 @@ Bu dosya, depoda çalışan her ajanın uyacağı kuralları anlatır. Önce `RE
 3. Çekme isteği açın; açıklamada neyi neden değiştirdiğinizi ve mümkünse önce/sonra ekran görüntüsünü Türkçe yazın.
 4. `main` dalına doğrudan yazmayın.
 
-Tek istisna, her sabahki otomatik güncellemedir: yalnızca `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını `main` dalına doğrudan yazar.
+Her sabahki otomatik güncelleme `gunluk/YYYY-AA-GG` dalında "Günlük güncelleme: GG Ay YYYY" başlıklı bir çekme isteği açar; yalnızca `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarını değiştirir, ChatGPT incelemesinden sonra kendisi birleştirir.
 
-Yayına alma: `main` dalına alınan tasarım değişiklikleri (`index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/`) ertesi sabahki otomatik güncellemede canlı siteye taşınır. Bu yüzden `main` dalına yalnızca denenmiş, çalışan değişiklikler alınmalıdır.
+Yayına alma: tasarım değişiklikleri (`index.html`, `js/app.js`, `js/art.js`, `fonts/`, `media/haber/`) ayrı bir çekme isteğiyle gelir; Claude dener, `main` dalına alır ve canlı siteye taşır.
 
 Haber fotoğrafları: `media/haber/` altındaki görseller `js/app.js` içindeki `photos` eşlemesiyle haberlere bağlanır; eşlemesi olmayan haberlerde `js/art.js` çizimi kullanılır.
+
+
+## Code Review Rules
+
+<!-- Bu bölümün başlığı Codex'in tanıdığı addır; içerik Türkçedir. Codex, çekme isteklerini bu kurallara göre inceler. -->
+
+### Günlük haber doğrulama
+
+"Günlük güncelleme: …" başlıklı çekme istekleri haber doğrulama incelemesidir. Bu isteklerde yalnızca `js/data.js` içindeki yeni ve değişen haberleri incele:
+
+- Her haberin `title`, `spot`, `key`, `body`, `tbl`, `dates`, `rg`, `kurum` ve `tur` alanlarını, aynı haberin `src` listesindeki bağlantılarla karşılaştır; mümkünse kaynak sayfayı aç.
+- P0 say: kaynakla çelişen ya da yanlış yazılmış oran, tutar, tarih, Resmî Gazete sayısı, karar veya tebliğ numarası, firma ya da ülke adı.
+- P1 say: listelenen kaynakların hiçbirinde bulunmayan iddia; kaynağın söylemediği bir yükümlülüğü yazan `todo` maddesi; eksik ya da çalışmayan kaynak bağlantısı; aynı düzenlemenin iki kez eklenmesi; yanlış alan (`cat`) ya da tür (`kind`); fıkra numarasıyla atıf; Türkçe olmayan metin.
+- Üslup tercihlerini ve tasarım önerilerini bu isteklerde bulgu olarak yazma.
+- Bulguları Türkçe yaz; her bulguda haberin `id` değerini ve dayandığın kaynağı belirt.
+
+### Tasarım değişiklikleri
+
+- `js/data.js`, `media/intro.mp4` ve `media/poster.jpg` dosyalarının değiştirilmesini P1 say.
+- Telefonda (390 px) yatay taşma, konsol hatası, kırık hash adresi (`#ana`, `#bu-hafta`, `#haberler`, `#kategori-<alan>`, `#haber-<id>`, `#takvim`, `#kaynaklar`) ya da dış kaynaktan yüklenen dosya P1'dir.
+
+## Review guidelines
+
+Codex'in eski sürümleri bu başlığı okur; kurallar yukarıdaki "Code Review Rules" bölümüyle aynıdır.
